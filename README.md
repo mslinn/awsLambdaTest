@@ -1,18 +1,26 @@
 #  Fun With AWS Lambda, API Gateway and IAM
 
-## STEP 1: CREATE A LAMBDA FUNCTION
+## Step 1: Create a Lambda Function
 
 A. Create an IAM role which will act as a Lambda execution role.
 We need to allow the Lambda service to assume this role in the trust policy.
-This role will specify which AWS resources does the Lambda function has access to.
-(I am assuming Lambda is not accessing any other AWS resources here.)
+This role will specify which AWS resources does the Lambda function has access to
+(assuming Lambda is not accessing any other AWS resources.)
 
 ```script
 $ aws iam create-role --role-name lambda-ex \
-  --assume-role-policy-document '{"Version": "2012-10-17","Statement": [{ "Effect": "Allow", "Principal": {"Service": "lambda.amazonaws.com"}, "Action": "sts:AssumeRole"}]}'
+  --assume-role-policy-document '{
+	  "Version": "2012-10-17",
+		"Statement": [
+		  { "Effect": "Allow",
+			  "Principal": { "Service": "lambda.amazonaws.com" },
+				"Action": "sts:AssumeRole"
+			}
+		]
+	}'
 ```
 
-B. Create a Lambda function using the following command :
+B. Create a Lambda function:
 
 ```
 $ aws lambda create-function \
@@ -23,10 +31,11 @@ $ aws lambda create-function \
 	--role arn:aws:iam::123456789012:role/lambda-ex
 ```
 
-Note that `function.zip` is a Lambda Deployment Package and has the required codes and dependencies.
-Also please make sure that `function.zip` lies in the Present Working Directory (PWD) of Command Line.
-Please find more information about Lambda Deployment package for Python [here](https://docs.aws.amazon.com/lambda/latest/dg/python-package.html).
-Below is a sample python Lambda function that merely prints the incoming event:
+Note that `function.zip` is a Lambda deployment package and has the required codes and dependencies.
+If `function.zip` is not found in the current directory, then the `zip-file` parameter value should be adjusted.
+More information about Lambda Deployment package for Python is available
+[here](https://docs.aws.amazon.com/lambda/latest/dg/python-package.html).
+Here is a sample Python 3.8 Lambda function that merely prints the incoming event:
 
 ```python
 import json
@@ -34,19 +43,20 @@ import json
 def lambda_handler(event, context):
     print(event)
     return {
-        'message': ‘Lambda has received your message !’
+        'message': 'Lambda has received your message !'
     }
 ```
 
 [This documentation](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-awscli.html)
-explains in detail the steps required for creating the Lambda function via Command Line.
+explains in detail the steps required for creating the lambda function via the command line.
 
 
-## STEP 2: CREATING AN APIGATEWAY API
+## Step 2: Creating an API Gateway API
 
-We are assuming the above STEP 1 created a Lambda function with ARN `arn:aws:lambda:us-east-1:123456789012:function:BackendLambda`
+Assuming that STEP 1 created a Lambda function with ARN
+`arn:aws:lambda:us-east-1:123456789012:function:BackendLambda`:
 
-A.  Call the `create-rest-api` command to create an API:
+A.  Call the `create-rest-api` command to create an API called `LambdaREST`:
 ```script
 $ aws apigateway create-rest-api \
   --name "LambdaREST"
@@ -75,7 +85,7 @@ $aws apigateway get-resources \
 	--region us-east-1
 ```
 
- Output:
+Output:
 
 ```json
 {
@@ -88,7 +98,7 @@ $aws apigateway get-resources \
 }
 ```
 
-C. Call `create-resource` to create an API Gateway Resource of `/demo`:
+C. Call `create-resource` to create an API Gateway Resource at `path-part demo`:
 ```script
 $ aws apigateway create-resource \
   --rest-api-id te6si5ach7 \
@@ -101,14 +111,14 @@ Output:
 
 ```json
 {
-    "path": “/demo”,
-    "pathPart": “demo”,
+    "path": "/demo",
+    "pathPart": "demo",
     "id": "2jf6xt",
     "parentId": "krznpq9xpg"
 }
 ```
 
-D. Call `put-method` to create an API method request of POST `/demo`
+D. Call `put-method` to create an API method request for `POST /demo`
 ```script
 $ aws apigateway put-method \
   --rest-api-id te6si5ach7 \
@@ -121,12 +131,13 @@ Output:
 ```json
 {
     "apiKeyRequired": false,
-    "httpMethod": “POST”,
+    "httpMethod": "POST",
     "authorizationType": "NONE"
 }
 ```
 
-E. Call put-method-response to set up the `200 OK` response to the method request of POST `/demo`.
+E. Call `put-method-response` to set up the `200 OK` response to the method request of POST `/demo`.
+
 ```script
 $ aws apigateway put-method-response \
   --rest-api-id te6si5ach7 \
@@ -145,7 +156,7 @@ Output:
 F. Call `put-integration` to set up the integration of the `POST /demo` method with a Lambda function named `BackendLambda`.
 The function responds with "Lambda has received your message !" as specified in the Lambda code.
 
-```script
+```scriptvalue2
 $ aws apigateway put-integration \
   --rest-api-id te6si5ach7 \
 	--resource-id 2jf6xt \
@@ -194,15 +205,16 @@ $ aws apigateway create-deployment \
 	--stage-name test
 ```
 
-Now after deploying the api, your invoke URL should be
-https://te6si5ach7.execute-api.us-east-1.amazonaws.com/test/demo.
-This URL can be used to make a `POST` request to invoke the backend Lambda.
-But before that, we will need to allow ApiGateway to invoke Lambda or else the requests will fail with `InternalServerError`.
+Now after deploying the api, your invocation URL should be
+[`https://te6si5ach7.execute-api.us-east-1.amazonaws.com/test/demo`](https://te6si5ach7.execute-api.us-east-1.amazonaws.com/test/demo).
+This URL can be used to make a `POST` request to invoke the Lambda.
+But before that, we will need to allow API Gateway to invoke Lambda or else the requests will fail with `InternalServerError`.
 
 Detailed steps on creating an API and integrating it with the Lambda backend are
 [here](https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-custom-integrations.html). 
 
-## STEP 3: ALLOWING LAMBDA TO GET INVOKED BY THE APIGATEWAY USING LAMBDA’S RESOURCE-BASED POLICY.
+## Step 3: Allowing Lambda To Be Invoked by API Gateway Using Lambda's Resource-Based Policy
+
 ```script
 $ aws lambda add-permission \
   --function-name BackendLambda \
@@ -213,7 +225,7 @@ $ aws lambda add-permission \
 	--output text
 ```
 
-Once the above steps are completed you can make `POST` requests to the API gateway's invocation URL like this:
+Now you can make `POST` requests to the API gateway's invocation URL like this:
 ```
 curl \
   -d 'param1=value1' \
