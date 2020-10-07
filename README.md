@@ -279,20 +279,28 @@ More information about creating an API and integrating it with the Lambda backen
 
 ## Step 3: Allowing Lambda To Be Invoked by API Gateway Using Lambda's Resource-Based Policy
 
+The `source-arn` parameter of the `add-permission` subcommand needs the AWS account ID and the gateway REST API ID.
+
 ```script
 $ aws lambda add-permission \
   --function-name BackendLambda \
 	--action lambda:InvokeFunction \
 	--statement-id lambdaperms \
 	--principal apigateway.amazonaws.com \
-	--source-arn "arn:aws:execute-api:us-east-1:394654164621:ira0fio9af/*/POST/*" \
+	--source-arn "arn:aws:execute-api:us-east-1:031372724784:vjwf063rz8/*/POST/*" \
 	--output text
+```
+
+Output is:
+
+```json
+{"Sid":"lambdaperms","Effect":"Allow","Principal":{"Service":"apigateway.amazonaws.com"},"Action":"lambda:InvokeFunction","Resource":"arn:aws:lambda:us-east-1:031372724784:function:BackendLambda","Condition":{"ArnLike":{"AWS:SourceArn":"arn:aws:execute-api:us-east-1:031372724784:vjwf063rz8/*/POST/*"}}}
 ```
 
 Now you can make `POST` requests to the API gateway's invocation URL like this:
 ```
 curl \
-  -d 'param1=value1' \
+  -d "param1='true'" \
   -d 'param2=value2' \
-  https://<rest-api-id>.execute-api.us-east-1.amazonaws.com/test/demo/
+  https://vjwf063rz8.execute-api.us-east-1.amazonaws.com/test/demo/
 ```
