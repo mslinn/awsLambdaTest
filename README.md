@@ -49,7 +49,7 @@ Output:
 
 B. Create a Lambda function:
 
-```
+```script
 $ aws lambda create-function \
   --function-name BackendLambda \
   --zip-file fileb://function.zip \
@@ -210,7 +210,7 @@ Output:
 F. Call `put-integration` to set up the integration of the `POST /demo` method with a Lambda function named `BackendLambda`.
 The function responds with "Lambda has received your message !" as specified in the Lambda code.
 
-```scriptvalue2
+```script
 $ aws apigateway put-integration \
   --rest-api-id vjwf063rz8 \
   --resource-id 4423uo \
@@ -320,8 +320,8 @@ $ curl --no-progress-meter \
 
 Or even:
 
-```
-curl --no-progress-meter \
+```script
+$ curl --no-progress-meter \
   -d "company='Slate Rock and Gravel Company'" \
   -d "emailAddress=fred@flintstone.com'" \
   -d "firstName=Fred" \
@@ -330,4 +330,39 @@ curl --no-progress-meter \
   -d "phone=555-123-4567" \
   -d "title=Slob" \
   https://vjwf063rz8.execute-api.us-east-1.amazonaws.com/test/demo/
+```
+
+## Step 4: Debugging
+
+To update the Lambda function, recreate `function.zip` and then call `update-function-code`:
+
+```script
+$ aws lambda update-function-code \
+  --function-name BackendLambda \
+  --zip-file fileb://function.zip
+```
+
+Output is:
+
+```json
+{
+    "FunctionName": "BackendLambda",
+    "FunctionArn": "arn:aws:lambda:us-east-1:031372724784:function:BackendLambda",
+    "Runtime": "python3.8",
+    "Role": "arn:aws:iam::031372724784:role/lambda-ex",
+    "Handler": "addSubscriberAwsLambda.lambda_handler",
+    "CodeSize": 1491007,
+    "Description": "",
+    "Timeout": 3,
+    "MemorySize": 128,
+    "LastModified": "2020-10-07T18:05:17.356+0000",
+    "CodeSha256": "fDcOeBsHCo0QNVGpLUFaElBZUDuhDm365bF+QL0dNqE=",
+    "Version": "$LATEST",
+    "TracingConfig": {
+        "Mode": "PassThrough"
+    },
+    "RevisionId": "5e895712-f86d-4194-8f91-bc16b15df7a2",
+    "State": "Active",
+    "LastUpdateStatus": "Successful"
+}
 ```
