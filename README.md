@@ -313,7 +313,12 @@ Output is:
 Now you can make `POST` requests to the API gateway's invocation URL like this:
 ```
 curl \
-  -d "param1='true'" \
-  -d 'param2=value2' \
+  -d "company='Slate Rock and Gravel Company'" \
+  -d "emailAddress=fred@flintstone.com'" \
+	-d "firstName=Fred" \
+	-d "lastName=Flintstone" \
+	-d "notes=None" \
+	-d "phone=555-123-4567" \
+	-d "title=Slob" \
   https://vjwf063rz8.execute-api.us-east-1.amazonaws.com/test/demo/
 ```
