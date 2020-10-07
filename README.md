@@ -311,6 +311,15 @@ Output is:
 ```
 
 Now you can make `POST` requests to the API gateway's invocation URL like this:
+```script
+$ curl \
+  -d 'param1=value1' \
+  -d 'param2=value2' \
+	https://vjwf063rz8.execute-api.us-east-1.amazonaws.com/test/demo/
+```
+
+Or even:
+
 ```
 curl \
   -d "company='Slate Rock and Gravel Company'" \
