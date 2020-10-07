@@ -10,14 +10,14 @@ This role will specify which AWS resources does the Lambda function has access t
 ```script
 $ aws iam create-role --role-name lambda-ex \
   --assume-role-policy-document '{
-	  "Version": "2012-10-17",
-		"Statement": [
-		  { "Effect": "Allow",
-			  "Principal": { "Service": "lambda.amazonaws.com" },
-				"Action": "sts:AssumeRole"
-			}
-		]
-	}'
+    "Version": "2012-10-17",
+    "Statement": [
+      { "Effect": "Allow",
+        "Principal": { "Service": "lambda.amazonaws.com" },
+        "Action": "sts:AssumeRole"
+      }
+    ]
+  }'
 ```
 
 Output:
@@ -52,10 +52,10 @@ B. Create a Lambda function:
 ```
 $ aws lambda create-function \
   --function-name BackendLambda \
-	--zip-file fileb://function.zip \
-	--handler index.handler \
-	--runtime python3.8 \
-	--role arn:aws:iam::031372724784:role/lambda-ex
+  --zip-file fileb://function.zip \
+  --handler index.handler \
+  --runtime python3.8 \
+  --role arn:aws:iam::031372724784:role/lambda-ex
 ```
 
 Note that `function.zip` is a Lambda deployment package and has the required codes and dependencies.
@@ -111,7 +111,7 @@ A.  Call the `create-rest-api` command to create an API called `LambdaREST`:
 ```script
 $ aws apigateway create-rest-api \
   --name "LambdaREST" \
-	--region us-east-1
+  --region us-east-1
 ```
 
 Output:
@@ -136,7 +136,7 @@ It also forms the first subdomain of the REST invocation endpoint.
 ```script
 $ aws apigateway get-resources \
   --rest-api-id vjwf063rz8 \
-	--region us-east-1
+  --region us-east-1
 ```
 
 Output:
@@ -156,9 +156,9 @@ C. Call `create-resource` to create an API Gateway Resource at `path-part demo`:
 ```script
 $ aws apigateway create-resource \
   --rest-api-id vjwf063rz8 \
-	--region us-east-1 \
-	--parent-id al6h0phbl7 \
-	--path-part demo
+  --region us-east-1 \
+  --parent-id al6h0phbl7 \
+  --path-part demo
 ```
 
 Output:
@@ -176,9 +176,9 @@ D. Call `put-method` to create an API method request for `POST /demo`
 ```script
 $ aws apigateway put-method \
   --rest-api-id vjwf063rz8 \
-	--resource-id 4423uo \
-	--http-method POST \
-	--authorization-type NONE
+  --resource-id 4423uo \
+  --http-method POST \
+  --authorization-type NONE
 ```
 
 Output:
@@ -195,9 +195,9 @@ E. Call `put-method-response` to set up the `200 OK` response to the method requ
 ```script
 $ aws apigateway put-method-response \
   --rest-api-id vjwf063rz8 \
-	--resource-id 4423uo \
-	--http-method POST \
-	--status-code 200
+  --resource-id 4423uo \
+  --http-method POST \
+  --status-code 200
 ```
 
 Output:
@@ -213,11 +213,11 @@ The function responds with "Lambda has received your message !" as specified in 
 ```scriptvalue2
 $ aws apigateway put-integration \
   --rest-api-id vjwf063rz8 \
-	--resource-id 4423uo \
-	--http-method POST \
-	--type AWS \
-	--integration-http-method POST \
-	--uri 'arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:031372724784:function:BackendLambda/invocations'
+  --resource-id 4423uo \
+  --http-method POST \
+  --type AWS \
+  --integration-http-method POST \
+  --uri 'arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:031372724784:function:BackendLambda/invocations'
 ```
 
 Output:
@@ -237,11 +237,11 @@ G. Call `put-integration-response` to set up the integration response to pass th
 ```script
 $ aws apigateway put-integration-response \
   --region us-east-1 \
-	--rest-api-id vjwf063rz8 \
-	--resource-id 4423uo \
-	--http-method POST \
-	--status-code 200 \
-	--selection-pattern ""
+  --rest-api-id vjwf063rz8 \
+  --resource-id 4423uo \
+  --http-method POST \
+  --status-code 200 \
+  --selection-pattern ""
 ```
 
 Output:
@@ -256,7 +256,7 @@ H. Call `create-deployment` to deploy the API to the `test` stage:
 ```script
 $ aws apigateway create-deployment \
   --rest-api-id vjwf063rz8 \
-	--stage-name test
+  --stage-name test
 ```
 
 Output:
@@ -284,11 +284,11 @@ The `source-arn` parameter of the `add-permission` subcommand needs the AWS acco
 ```script
 $ aws lambda add-permission \
   --function-name BackendLambda \
-	--action lambda:InvokeFunction \
-	--statement-id lambdaperms \
-	--principal apigateway.amazonaws.com \
-	--source-arn "arn:aws:execute-api:us-east-1:031372724784:vjwf063rz8/*/POST/*" \
-	--output text | jq
+  --action lambda:InvokeFunction \
+  --statement-id lambdaperms \
+  --principal apigateway.amazonaws.com \
+  --source-arn "arn:aws:execute-api:us-east-1:031372724784:vjwf063rz8/*/POST/*" \
+  --output text | jq
 ```
 
 Output is:
@@ -312,22 +312,22 @@ Output is:
 
 Now you can make `POST` requests to the API gateway's invocation URL like this:
 ```script
-$ curl \
+$ curl --no-progress-meter \
   -d 'param1=value1' \
   -d 'param2=value2' \
-	https://vjwf063rz8.execute-api.us-east-1.amazonaws.com/test/demo/
+  https://vjwf063rz8.execute-api.us-east-1.amazonaws.com/test/demo/
 ```
 
 Or even:
 
 ```
-curl \
+curl --no-progress-meter \
   -d "company='Slate Rock and Gravel Company'" \
   -d "emailAddress=fred@flintstone.com'" \
-	-d "firstName=Fred" \
-	-d "lastName=Flintstone" \
-	-d "notes=None" \
-	-d "phone=555-123-4567" \
-	-d "title=Slob" \
+  -d "firstName=Fred" \
+  -d "lastName=Flintstone" \
+  -d "notes=None" \
+  -d "phone=555-123-4567" \
+  -d "title=Slob" \
   https://vjwf063rz8.execute-api.us-east-1.amazonaws.com/test/demo/
 ```
