@@ -20,6 +20,33 @@ $ aws iam create-role --role-name lambda-ex \
 	}'
 ```
 
+Output:
+```json
+{
+    "Role": {
+        "Path": "/",
+        "RoleName": "lambda-ex",
+        "RoleId": "AROAQOTPVZIYJZ266OVNR",
+        "Arn": "arn:aws:iam::031372724784:role/lambda-ex",
+        "CreateDate": "2020-10-07T16:00:16Z",
+        "AssumeRolePolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Principal": {
+                        "Service": "lambda.amazonaws.com"
+                    },
+                    "Action": "sts:AssumeRole"
+                }
+            ]
+        }
+    }
+}
+```
+
+`.Role.Arn` contains the IAM ARN that is needed in the next step.
+
 B. Create a Lambda function:
 
 ```
@@ -28,7 +55,7 @@ $ aws lambda create-function \
 	--zip-file fileb://function.zip \
 	--handler index.handler \
 	--runtime python3.8 \
-	--role arn:aws:iam::123456789012:role/lambda-ex
+	--role arn:aws:iam::031372724784:role/lambda-ex
 ```
 
 Note that `function.zip` is a Lambda deployment package and has the required codes and dependencies.
@@ -50,25 +77,49 @@ def lambda_handler(event, context):
 [This documentation](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-awscli.html)
 explains in detail the steps required for creating the lambda function via the command line.
 
+Output:
+```json
+{
+    "FunctionName": "BackendLambda",
+    "FunctionArn": "arn:aws:lambda:us-east-1:031372724784:function:BackendLambda",
+    "Runtime": "python3.8",
+    "Role": "arn:aws:iam::031372724784:role/lambda-ex",
+    "Handler": "index.handler",
+    "CodeSize": 1489388,
+    "Description": "",
+    "Timeout": 3,
+    "MemorySize": 128,
+    "LastModified": "2020-10-07T16:04:45.636+0000",
+    "CodeSha256": "McJEQT1lxVrwFojdvBL3AXqXEDrujQfQS0psuIwEGvs=",
+    "Version": "$LATEST",
+    "TracingConfig": {
+        "Mode": "PassThrough"
+    },
+    "RevisionId": "c9f55d79-2724-44b5-8338-0a7e84cb156f",
+    "State": "Active",
+    "LastUpdateStatus": "Successful"
+}
+```
+
 
 ## Step 2: Creating an API Gateway API
 
 Assuming that STEP 1 created a Lambda function with ARN
-`arn:aws:lambda:us-east-1:123456789012:function:BackendLambda`:
+`arn:aws:lambda:us-east-1:031372724784:function:BackendLambda`:
 
 A.  Call the `create-rest-api` command to create an API called `LambdaREST`:
 ```script
 $ aws apigateway create-rest-api \
-  --name "LambdaREST"
+  --name "LambdaREST" \
 	--region us-east-1
 ```
 
 Output:
 ```json
 {
-    "id": "te6si5ach7",
+    "id": "vjwf063rz8",
     "name": "LambdaREST",
-    "createdDate": "2020-10-05T11:23:49+05:30",
+    "createdDate": 1602086848,
     "apiKeySource": "HEADER",
     "endpointConfiguration": {
         "types": [
@@ -78,10 +129,13 @@ Output:
 }
 ```
 
-B. Call the `get-resources` command to get the `root` resource id:
+B. Call the `get-resources` command to get the `root` resource id.
+This will be passed to `create-resource` as the `parent-id` property,
+and to `put-method`, `put-method-response`, `put-integration` and `put-integration-response` as the `resource-id` property.
+It also forms the first subdomain of the REST invocation endpoint.
 ```script
-$aws apigateway get-resources \
-  --rest-api-id te6si5ach7 \
+$ aws apigateway get-resources \
+  --rest-api-id vjwf063rz8 \
 	--region us-east-1
 ```
 
@@ -91,8 +145,8 @@ Output:
 {
     "items": [
         {
-            "path": "/",
-            "id": "krznpq9xpg"
+            "id": "al6h0phbl7",
+            "path": "/"
         }
     ]
 }
@@ -101,9 +155,9 @@ Output:
 C. Call `create-resource` to create an API Gateway Resource at `path-part demo`:
 ```script
 $ aws apigateway create-resource \
-  --rest-api-id te6si5ach7 \
+  --rest-api-id vjwf063rz8 \
 	--region us-east-1 \
-	--parent-id krznpq9xpg \
+	--parent-id al6h0phbl7 \
 	--path-part demo
 ```
 
@@ -111,18 +165,18 @@ Output:
 
 ```json
 {
-    "path": "/demo",
+    "id": "4423uo",
+    "parentId": "al6h0phbl7",
     "pathPart": "demo",
-    "id": "2jf6xt",
-    "parentId": "krznpq9xpg"
+    "path": "/demo"
 }
 ```
 
 D. Call `put-method` to create an API method request for `POST /demo`
 ```script
 $ aws apigateway put-method \
-  --rest-api-id te6si5ach7 \
-	--resource-id 2jf6xt \
+  --rest-api-id vjwf063rz8 \
+	--resource-id 4423uo \
 	--http-method POST \
 	--authorization-type NONE
 ```
@@ -130,9 +184,9 @@ $ aws apigateway put-method \
 Output:
 ```json
 {
-    "apiKeyRequired": false,
     "httpMethod": "POST",
-    "authorizationType": "NONE"
+    "authorizationType": "NONE",
+    "apiKeyRequired": false
 }
 ```
 
@@ -140,8 +194,8 @@ E. Call `put-method-response` to set up the `200 OK` response to the method requ
 
 ```script
 $ aws apigateway put-method-response \
-  --rest-api-id te6si5ach7 \
-	--resource-id 2jf6xt \
+  --rest-api-id vjwf063rz8 \
+	--resource-id 4423uo \
 	--http-method POST \
 	--status-code 200
 ```
@@ -158,12 +212,12 @@ The function responds with "Lambda has received your message !" as specified in 
 
 ```scriptvalue2
 $ aws apigateway put-integration \
-  --rest-api-id te6si5ach7 \
-	--resource-id 2jf6xt \
+  --rest-api-id vjwf063rz8 \
+	--resource-id 4423uo \
 	--http-method POST \
 	--type AWS \
 	--integration-http-method POST \
-	--uri 'arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:123456789012:function:BackendLambda/invocations'
+	--uri 'arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:031372724784:function:BackendLambda/invocations'
 ```
 
 Output:
@@ -171,10 +225,10 @@ Output:
 {
     "type": "AWS",
     "httpMethod": "POST",
-    "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:123456789012:function:BackendLambda/invocations",
+    "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:031372724784:function:BackendLambda/invocations",
     "passthroughBehavior": "WHEN_NO_MATCH",
     "timeoutInMillis": 29000,
-    "cacheNamespace": "2jf6xt",
+    "cacheNamespace": "4423uo",
     "cacheKeyParameters": []
 }
 ```
@@ -183,8 +237,8 @@ G. Call `put-integration-response` to set up the integration response to pass th
 ```script
 $ aws apigateway put-integration-response \
   --region us-east-1 \
-	--rest-api-id te6si5ach7 \
-	--resource-id 2jf6xt \
+	--rest-api-id vjwf063rz8 \
+	--resource-id 4423uo \
 	--http-method POST \
 	--status-code 200 \
 	--selection-pattern ""
@@ -201,17 +255,27 @@ Output:
 H. Call `create-deployment` to deploy the API to the `test` stage:
 ```script
 $ aws apigateway create-deployment \
-  --rest-api-id te6si5ach7 \
+  --rest-api-id vjwf063rz8 \
 	--stage-name test
 ```
 
+Output:
+
+```json
+{
+    "id": "nink3g",
+    "createdDate": 1602087417
+}
+```
+
 Now after deploying the api, your invocation URL should be
-[`https://te6si5ach7.execute-api.us-east-1.amazonaws.com/test/demo`](https://te6si5ach7.execute-api.us-east-1.amazonaws.com/test/demo).
+[`https://vjwf063rz8.execute-api.us-east-1.amazonaws.com/test/demo`](https://vjwf063rz8.execute-api.us-east-1.amazonaws.com/test/demo).
 This URL can be used to make a `POST` request to invoke the Lambda.
 But before that, we will need to allow API Gateway to invoke Lambda or else the requests will fail with `InternalServerError`.
+The next section will do just that.
 
-Detailed steps on creating an API and integrating it with the Lambda backend are
-[here](https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-custom-integrations.html). 
+More information about creating an API and integrating it with the Lambda backend is
+[here](https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-custom-integrations.html).
 
 ## Step 3: Allowing Lambda To Be Invoked by API Gateway Using Lambda's Resource-Based Policy
 
