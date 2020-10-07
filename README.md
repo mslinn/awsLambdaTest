@@ -288,13 +288,26 @@ $ aws lambda add-permission \
 	--statement-id lambdaperms \
 	--principal apigateway.amazonaws.com \
 	--source-arn "arn:aws:execute-api:us-east-1:031372724784:vjwf063rz8/*/POST/*" \
-	--output text
+	--output text | jq
 ```
 
 Output is:
 
 ```json
-{"Sid":"lambdaperms","Effect":"Allow","Principal":{"Service":"apigateway.amazonaws.com"},"Action":"lambda:InvokeFunction","Resource":"arn:aws:lambda:us-east-1:031372724784:function:BackendLambda","Condition":{"ArnLike":{"AWS:SourceArn":"arn:aws:execute-api:us-east-1:031372724784:vjwf063rz8/*/POST/*"}}}
+{
+  "Sid": "lambdaperms",
+  "Effect": "Allow",
+  "Principal": {
+    "Service": "apigateway.amazonaws.com"
+  },
+  "Action": "lambda:InvokeFunction",
+  "Resource": "arn:aws:lambda:us-east-1:031372724784:function:BackendLambda",
+  "Condition": {
+    "ArnLike": {
+      "AWS:SourceArn": "arn:aws:execute-api:us-east-1:031372724784:vjwf063rz8/*/POST/*"
+    }
+  }
+}
 ```
 
 Now you can make `POST` requests to the API gateway's invocation URL like this:
