@@ -17,14 +17,11 @@ __pycache__/
 __MACOSX
 _site/
 ~*
-bin/*.class
 doc/
-function.zip
-landingPageShortName.md
-node_modules/
 package/
 node_modules/
 Notepad++/
+run.py
 test.html
 RUNNING_PID
-cloud9.tar
+function.zip
