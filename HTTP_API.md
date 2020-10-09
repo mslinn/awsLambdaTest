@@ -70,9 +70,9 @@ Near the end of this page you will be instructed to create and save additional e
 
    This command spans several lines and does the following:
 
-   a. Extracts the `ApiId` value from the saved JSON in the `.result` file.
-   b. Stores it into an environment variable called `AWS_APIG_HTTP_ID`.
-   c. Defines the invocation URL in an environment variable called `AWS_HTTP_INVOCATION_URL`.
+   1. Extracts the `ApiId` value from the saved JSON in the `.result` file.
+   2. Stores it into an environment variable called `AWS_APIG_HTTP_ID`.
+   3. Defines the invocation URL in an environment variable called `AWS_HTTP_INVOCATION_URL`.
 
    These environment variables are saved to `setEnvVars.sh`:
 
