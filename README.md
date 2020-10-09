@@ -1,7 +1,7 @@
 #  Fun With AWS Lambda, API Gateway and IAM
 
 This documents how to invoke an unsigned Lambda via POST using two types of API Gateways: HTTP and REST.
-This means that a public Lambda is defined, which does not require security credentials to be invoked. 
+This means that a public Lambda is defined, which does not require security credentials to be invoked.
 The Lambda function needs to have previously been created; these instructions do not describe how to do that.
 
 The same Lambda function is invoked via both mechanisms, using the same data.
@@ -173,3 +173,6 @@ This step is common to both the REST and the HTTP APIs.
 ## Step 2) Creating an API Gateway API
 
 Separate instructions are given for the simpler [HTTP API](HTTP_API.md) and the more flexible [REST API](REST_API.md).
+
+## Acknowledgements
+I would like to thank Raju J. of Amazon Web Services for his kind and thoughtful input.
