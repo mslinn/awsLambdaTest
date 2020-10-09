@@ -10,7 +10,21 @@ This step is common to both the REST and the HTTP APIs.
 
 
 ## Build ZIP Container for AWS Lambda Function
-From [How do I build an AWS Lambda deployment package for Python?](https://aws.amazon.com/premiumsupport/knowledge-center/build-python-lambda-deployment-package/):
+
+These instructions are based on
+[How do I build an AWS Lambda deployment package for Python?](https://aws.amazon.com/premiumsupport/knowledge-center/build-python-lambda-deployment-package/).
+
+I created the file [`requirements.txt`](https://pip.pypa.io/en/stable/user_guide/#requirements-files)
+in the `$AWS_LAMBDA_DIR` directory, and it looks like this:
+
+```
+requests
+ptvsd
+boto3
+```
+
+Now we can build a zip file containing the Lambda function and its dependencies.
+The requirements file is updated by this process as well.
 
 ```shell
 $ pip3 install -r "$AWS_LAMBDA_DIR/requirements.txt" -t "$AWS_LAMBDA_DIR"
