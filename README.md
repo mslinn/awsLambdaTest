@@ -94,6 +94,12 @@ AWS_LAMBDA_HANDLER=echo.handler
 AWS_LAMBDA_ARN="arn:aws:lambda:$AWS_REGION:$AWS_ACCOUNT_ID:function:$AWS_LAMBDA_NAME"
 ```
 
+I saved the above into a file called `setEnvVars.sh`, so you can set the environment variables by typing:
+
+```shell
+source setEnvVars.sh
+```
+
 The steps that follow will define additional environment variables.
 
 
