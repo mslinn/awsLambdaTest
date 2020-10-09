@@ -10,7 +10,7 @@ and a default stage that is configured to automatically deploy changes (to the L
 
 ## Create an API Gateway HTTP API
 
-Define a few environment variables:
+We will use these environment variables from `setEnvVars.sh`:
 
 ```script
 AWS_APIG_PATH_PART=demo   # Part of the URL path to invoke the Lambda function
@@ -47,11 +47,18 @@ AWS_APIG_NAME=LambdaHTTP
 
    We have created an HTTP API.
    Save `ApiId` in an environment variable called `AWS_APIG_HTTP_ID`, and also
-   define the invocation URL in an environment variable called `AWS_HTTP_INVOCATION_URL`:
+   define the invocation URL in an environment variable called `AWS_HTTP_INVOCATION_URL`.
+   Save these environment variables to `setEnvVars.sh` and re-source it:
 
    ```script
+   $ cat <<EOF
+
+   # Added by following the instructions in HTTP_API.md:
    AWS_APIG_HTTP_ID=y5sy8ty98g
    AWS_HTTP_INVOCATION_URL=https://$AWS_APIG_HTTP_ID.execute-api.$AWS_REGION.amazonaws.com/$AWS_APIG_PATH_PART/
+   EOF >> setEnvVars.sh
+
+   $ source setEnvVars.sh
    ```
 
 2. Permissions have not yet been provided for the Lambda to be executed by the API Gateway, so
