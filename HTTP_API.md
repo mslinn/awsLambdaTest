@@ -42,10 +42,10 @@ Near the end of this page you will be instructed to create and save additional e
      --target "$AWS_APIG_TARGET_ARN"
    ```
 
-   If you would like to allow all methods in this route, use the keyword `ANY` instead, like this.
+   If you would like to allow all methods in this route, use the keyword `ANY` instead, like this:
 
    ```script
-   $ aws apigatewayv2 create-api \
+   $ ./capture aws apigatewayv2 create-api \
      --name $AWS_APIG_NAME \
      --protocol-type HTTP \
      --route-key "ANY /$AWS_APIG_PATH_PART" \
@@ -66,20 +66,26 @@ Near the end of this page you will be instructed to create and save additional e
    }
    ```
 
-   We have created an HTTP API.
-   Save `ApiId` in an environment variable called `AWS_APIG_HTTP_ID`, and also
-   define the invocation URL in an environment variable called `AWS_HTTP_INVOCATION_URL`.
-   Save these environment variables to `setEnvVars.sh` and re-source it:
+   We have created an HTTP API and the resulting JSON has been saved to `.result` by the `capture` script.
+
+   The code below does the following:
+
+   1. Extracts the `ApiId` value from the saved JSON in the `.result` file.
+   2. Stores it into an environment variable called `AWS_APIG_HTTP_ID`.
+   3. Defines the invocation URL in an environment variable called `AWS_HTTP_INVOCATION_URL`.
+
+   These environment variables are saved to `setEnvVars.sh`, then that file is re-sourced:
 
    ```script
-   $ cat &lt;&lt;EOF >> setEnvVars.sh
+   cat <<EOF >> setEnvVars.sh
+
 
    # Added by following the instructions in HTTP_API.md:
-   AWS_APIG_HTTP_ID=y5sy8ty98g
+   AWS_APIG_HTTP_ID=$( ./extract .ApiId )
    AWS_HTTP_INVOCATION_URL=https://$AWS_APIG_HTTP_ID.execute-api.$AWS_REGION.amazonaws.com/$AWS_APIG_PATH_PART/
    EOF
 
-   $ source setEnvVars.sh
+   source setEnvVars.sh
    ```
 
 2. Permissions have not yet been provided for the Lambda to be executed by the API Gateway, so
