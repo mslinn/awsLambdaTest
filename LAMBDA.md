@@ -16,12 +16,33 @@ More information about creating a Lambda deployment package for Python is availa
 [here](https://docs.aws.amazon.com/lambda/latest/dg/python-package.html).
 
 
+## Resuming Your Work
+
+The instructions on this page use the following environment variables from `setEnvVars.sh`:
+
+```script
+AWS_LAMBDA_DIR=lambda
+AWS_LAMBDA_NAME=BackendLambda
+AWS_LAMBDA_ZIP=function.zip
+AWS_LAMBDA_RUNTIME=python3.8
+AWS_LAMBDA_HANDLER=echo.lambda_handler
+AWS_LAMBDA_ARN="arn:aws:lambda:$AWS_REGION:$AWS_ACCOUNT_ID:function:$AWS_LAMBDA_NAME"
+```
+
+If you are resuming these instructions in a new shell, load the environment variables from `setEnvVars.sh`:
+
+```script
+$ source setEnvVars.sh
+```
+
+
 ## Move to the `$AWS_LAMBDA_DIR` Directory
-Most of our work for this page will be done in the $AWS_LAMBDA_DIR directory, so make it current:
+Most of our work for this page will be done in the $AWS_LAMBDA_DIR subdirectory, so make it current:
 
 ```shell
 $ cd "$AWS_LAMBDA_DIR"
 ```
+
 
 ## A Very Simple Python Program for an AWS Lambda Function
 As a very simple example, here is a sample Python 3.8 program that merely prints the incoming event.
@@ -337,7 +358,7 @@ Output is:
     "FunctionArn": "$AWS_LAMBDA_ARN",
     "Runtime": "$AWS_LAMBDA_RUNTIME",
     "Role": "$AWS_ROLE_ARN",
-    "Handler": "addSubscriberAwsLambda.lambda_handler",
+    "Handler": "echo.lambda_handler",
     "CodeSize": 1491007,
     "Description": "",
     "Timeout": 3,
@@ -353,6 +374,7 @@ Output is:
     "LastUpdateStatus": "Successful"
 }
 ```
+
 
 ## Renaming the Lambda Function Entry Point
 

@@ -1,7 +1,5 @@
 # Step 4: Debugging
 
-If you wish to type along and have not already performed the instructions on the previous page [REST API]](REST.md) or [HTTP API](HTTP.md) please do so now.
-
 Debugging is the same for the HTTP and REST APIs.
 This document discusses how to set up an IntelliJ IDEA run configuration for debugging.
 

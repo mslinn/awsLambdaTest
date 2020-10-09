@@ -1,11 +1,17 @@
 # HTTP API
 
-If you wish to type along and have not already performed the instructions on the [previous page](REGISTER.md) please do so now.
-
 The HTTP API features a
 [quick create](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop.html#http-api-examples.cli.quick-create)
 capability that creates an API with a Lambda or HTTP integration, and a default catch-all route,
 and a default stage that is configured to automatically deploy changes (to the Lambda?).
+
+If you wish to type along and have not already performed the instructions on the [previous page](REGISTER.md) please do so now.
+
+If you are resuming these instructions in a new shell, load the environment variables from `setEnvVars.sh`:
+
+```script
+$ source setEnvVars.sh
+```
 
 ## Saving Your Work
 
@@ -17,7 +23,7 @@ AWS_APIG_TARGET_ARN="arn:aws:lambda:$AWS_REGION:$AWS_ACCOUNT_ID:function:$AWS_LA
 AWS_APIG_NAME=LambdaHTTP
 ```
 
-This page will tell you to create and save additional environment variables to `setEnvVars.sh` so you can return to this project at another time.
+Near the end of this page you will be instructed to create and save additional environment variables to `setEnvVars.sh` so you can return to this project at another time.
 
 
 ## Create an API Gateway HTTP API

@@ -3,6 +3,12 @@
 If you wish to type along and have not already performed the instructions on the
 [previous page](REGISTER.md) please do so now.
 
+If you are resuming these instructions in a new shell, load the environment variables from `setEnvVars.sh`:
+
+```script
+$ source setEnvVars.sh
+```
+
 
 ## Saving Your Work
 
@@ -14,7 +20,7 @@ AWS_APIG_PATH_PART=demo   # Part of the URL path to invoke the Lambda function
 AWS_APIG_STAGE=test       # Usually called dev, prod or test
 ```
 
-This page will tell you to create and save additional environment variables to `setEnvVars.sh` so you can return to this project at another time.
+Near the end of this page you will be instructed to create and save additional environment variables to `setEnvVars.sh` so you can return to this project at another time.
 
 
 ## Create an API Gateway REST API
