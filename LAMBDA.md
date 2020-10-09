@@ -42,7 +42,7 @@ def handler(event, context):
 
 ## The Actual Python Program for Our AWS Lambda Function
 
-[app.py](lambda/app.py) contains the code to echo an API Gateway request, including any HTTP `x-www-form-urlencoded` data.
+[echo.py](lambda/echo.py) contains the code to echo an API Gateway request, including any HTTP `x-www-form-urlencoded` data.
 
 I created the file [`requirements.txt`](https://pip.pypa.io/en/stable/user_guide/#requirements-files)
 in the `$AWS_LAMBDA_DIR` directory, and it looks like this:
@@ -119,7 +119,7 @@ $ sudo chown -R $USER: $AWS_LAMBDA_DIR
 Files and subdirectories in `$AWS_LAMBDA_DIR` are now:
 
 ```
-app.py
+echo.py
 bin/
 boto3/
 boto3-1.15.15.dist-info/
