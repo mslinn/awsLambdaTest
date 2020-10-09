@@ -44,4 +44,6 @@ AWS_APIG_NAME=LambdaHTTP
 # Discussed in REST_API.md; call them whatever you like:
 AWS_REST_NAME=LambdaREST
 AWS_APIG_STAGE=test
+
+
 EOF

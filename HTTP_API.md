@@ -2,8 +2,10 @@
 
 The HTTP API features a
 [quick create](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop.html#http-api-examples.cli.quick-create)
-capability that creates an API with a Lambda or HTTP integration, and a default catch-all route,
-and a default stage that is configured to automatically deploy changes (to the Lambda?).
+capability that creates:
+1. An HTTP API in front of a Lambda.
+2. A default catch-all route.
+3. A default stage that is configured to automatically deploy changes (to the Lambda?).
 
 If you wish to type along and have not already performed the instructions on the [previous page](REGISTER.md) please do so now.
 
@@ -31,13 +33,22 @@ Near the end of this page you will be instructed to create and save additional e
 1. Call the `create-api` command to create an API with the desired name.
    This command maps the Lambda to the route "/$AWS_APIG_PATH_PART".
    The `POST` in the route key will allow `POST` method calls on the specified route.
-   If you would like to allow all methods in this route, use the keyword `ANY` instead.
 
    ```script
    $ aws apigatewayv2 create-api \
      --name $AWS_APIG_NAME \
      --protocol-type HTTP \
      --route-key "POST /$AWS_APIG_PATH_PART" \
+     --target "$AWS_APIG_TARGET_ARN"
+   ```
+
+   If you would like to allow all methods in this route, use the keyword `ANY` instead, like this.
+
+   ```script
+   $ aws apigatewayv2 create-api \
+     --name $AWS_APIG_NAME \
+     --protocol-type HTTP \
+     --route-key "ANY /$AWS_APIG_PATH_PART" \
      --target "$AWS_APIG_TARGET_ARN"
    ```
 

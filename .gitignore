@@ -8,6 +8,7 @@
 *~
 .DS_Store
 .idea
+.result
 __pycache__/
 __MACOSX
 ~*
