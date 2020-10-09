@@ -6,22 +6,21 @@ The commands necessary are summarized at the end of this page.
 
 [The AWS CLI Getting Started documentation](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-awscli.html)
 details the steps required for creating the lambda function via the command line.
-
 These instructions are based on
 [How do I build an AWS Lambda deployment package for Python?](https://aws.amazon.com/premiumsupport/knowledge-center/build-python-lambda-deployment-package/).
 
 The [ATS sam build and package](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-cli-command-reference-sam-build.html)
-commands can build AWS Lambda functions into zip file, but this document describes a simpler approach.
+commands can also build AWS Lambda functions into zip file, but this document describes a simpler approach.
 
 More information about creating a Lambda deployment package for Python is available
 [here](https://docs.aws.amazon.com/lambda/latest/dg/python-package.html).
 
 
-## Move to the `"$AWS_LAMBDA_DIR` Directory
+## Move to the `$AWS_LAMBDA_DIR` Directory
 Most of our work for this page will be done in the $AWS_LAMBDA_DIR directory, so make it current:
 
 ```shell
-cd "$AWS_LAMBDA_DIR"
+$ cd "$AWS_LAMBDA_DIR"
 ```
 
 ## A Very Simple Python Program for an AWS Lambda Function
@@ -110,7 +109,7 @@ Successfully installed boto3-1.15.15 botocore-1.18.15 certifi-2020.6.20 chardet-
 ```
 
 If you had to preface the previous command with `sudo -H`,
-change the owner and group of the contents in the $AWS_LAMBDA_DIR directory from `root:root`
+change the owner and group of the contents in the `$AWS_LAMBDA_DIR` directory from `root:root`
 to your userid and group:
 
 ```shell
@@ -152,6 +151,8 @@ urllib3-1.25.10.dist-info/
 
 
 ## Update `requirements.txt`
+
+Type the following:
 
 ```shell
 pip3 freeze > requirements.txt
@@ -305,10 +306,8 @@ zope.interface==4.7.1
 
 ```shell
 cd "$AWS_LAMBDA_DIR"
-sudo -H pip3 install -r requirements.txt -t .
-sudo chown -R $USER: $AWS_LAMBDA_DIR
+pip3 install -r requirements.txt -t .
 pip3 freeze > requirements.txt
-chmod -R 755 *
 zip -r ../$AWS_LAMBDA_ZIP .
 cd -
 ```
