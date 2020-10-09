@@ -358,20 +358,29 @@ Output is:
 
 If the Lambda function modification included changing the name of the entry point,
 tell AWS about the modified entry point name with `update-function-configuration`.
-For example, if the new handler is the method `ooh_baby` in `my_file.py`:
+
+If you have been using [`setEnvVars.sh`](setEnvVars.sh) then you should edit the value of `AWS_LAMBDA_HANDLER` in that file to suit.
+For example, if the new handler is the method `ooh_baby` in `my_file.py`, you could do that from the command line like this:
+```shell
+$ sed -i '/AWS_LAMBDA_HANDLER/c\AWS_LAMBDA_HANDLER=my_file.ooh_baby' setEnvVars.sh
+```
+
+Verify that it worked:
+```shell
+$ grep AWS_LAMBDA_HANDLER setEnvVars.sh
+AWS_LAMBDA_HANDLER=my_file.ooh_baby
+```
+
+Now re-source the file so the new value of the `AWS_LAMBDA_NAME` environment variable is used, and tell AWS about the change:
 
 ```script
-$ AWS_LAMBDA_HANDLER=my_file.ooh_baby
+$ source setEnvVars.sh
 $ aws lambda update-function-configuration \
   --function-name $AWS_LAMBDA_NAME \
   --handler $AWS_LAMBDA_HANDLER
 ```
 
-If you have been using [`setEnvVars.sh`](setEnvVars.sh) then you should edit the value of `AWS_LAMBDA_HANDLER` in that file to suit.
-You could do that from the command line like this:
-```shell
-$ sed -i '/AWS_LAMBDA_HANDLER/c\AWS_LAMBDA_HANDLER=my_file.ooh_baby' setEnvVars.sh
-```
+
 
 ## Next Step
 
