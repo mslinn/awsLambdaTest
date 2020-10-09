@@ -132,9 +132,152 @@ urllib3-1.25.10.dist-info/
 ## Update `requirements.txt`
 
 ```shell
-pip3 freeze >  requirements.txt
+pip3 freeze > requirements.txt
 ```
 
+`requirements.txt` now contains all the dependencies, including transient dependencies:
+```
+apturl==0.5.2
+arrow==0.16.0
+attrs==20.2.0
+aws-lambda-builders==1.1.0
+aws-sam-cli==1.2.0
+aws-sam-translator==1.26.0
+awscli==1.18.69
+beautifulsoup4==4.8.2
+binaryornot==0.4.4
+blinker==1.4
+boto3==1.14.60
+boto3-stubs==1.15.0.0
+botocore==1.17.60
+catfish==1.4.13
+certifi==2019.11.28
+chardet==3.0.4
+chevron==0.13.1
+cliapp==1.20180812.1
+Click==7.0
+cmdtest==0.32+git
+colorama==0.4.3
+command-not-found==0.3
+cookiecutter==1.6.0
+cryptography==2.8
+cupshelpers==1.0
+dateparser==0.7.6
+dbus-python==1.2.16
+dearpygui==0.1.0b13
+defer==1.0.6
+distro==1.4.0
+distro-info===0.23ubuntu1
+docker==4.2.2
+docutils==0.15.2
+entrypoints==0.3
+Flask==1.0.4
+future==0.18.2
+gitdb==4.0.5
+GitPython==3.1.8
+html5lib==1.0.1
+httpie==1.0.3
+httplib2==0.14.0
+idna==2.8
+itsdangerous==1.1.0
+Jinja2==2.11.2
+jinja2-time==0.2.0
+jmespath==0.9.5
+jsonschema==3.2.0
+keyring==18.0.1
+keyrings.alt==3.4.0
+language-selector==0.1
+launchpadlib==1.10.13
+lazr.restfulclient==0.14.2
+lazr.uri==1.0.3
+lightdm-gtk-greeter-settings==1.2.2
+lxml==4.5.0
+macaroonbakery==1.3.1
+mailchimp-marketing==3.0.15
+Markdown==3.1.1
+MarkupSafe==1.1.1
+meld==3.20.2
+menulibre==2.2.1
+mugshot==0.4.2
+netifaces==0.10.4
+oauth==1.0.1
+oauthlib==3.1.0
+olefile==0.46
+onboard==1.4.1
+packaging==20.4
+pbr==5.5.0
+pexpect==4.6.0
+Pillow==7.0.0
+poyo==0.5.0
+protobuf==3.6.1
+psutil==5.5.1
+ptvsd==4.3.2
+pyasn1==0.4.2
+pycairo==1.16.2
+pycrypto==2.6.1
+pycups==1.9.73
+pycurl==7.43.0.2
+Pygments==2.3.1
+PyGObject==3.36.0
+PyJWT==1.7.1
+pylibacl==0.5.4
+pymacaroons==0.13.0
+PyNaCl==1.3.0
+pyparsing==2.4.7
+PyQt5==5.14.1
+pyRFC3339==1.1
+pyrsistent==0.17.3
+PySimpleSOAP==1.16.2
+python-apt==2.0.0+ubuntu0.20.4.1
+python-dateutil==2.7.3
+python-debian===0.1.36ubuntu1
+python-debianbts==3.0.2
+python-magic==0.4.16
+pytz==2020.1
+pyxattr==0.6.1
+pyxdg==0.26
+PyYAML==5.3.1
+realityengines==0.9.1
+regex==2020.7.14
+reportlab==3.5.34
+requests==2.23.0
+requests-unixsocket==0.2.0
+roman==2.0.0
+rsa==4.0
+s3cmd==2.0.2
+s3transfer==0.3.3
+screen-resolution-extra==0.0.0
+SecretStorage==2.3.1
+serverlessrepo==0.1.9
+sgt-launcher==0.2.5
+simplejson==3.16.0
+sip==4.19.21
+six==1.14.0
+smmap==3.0.4
+soupsieve==1.9.5
+ssh-import-id==5.10
+sshconf==0.0.0
+systemd-python==234
+testresources==2.0.1
+tomlkit==0.5.8
+ttystatus==0.38
+tzlocal==2.1
+ubuntu-advantage-tools==20.3
+ubuntu-drivers-common==0.0.0
+ufw==0.36
+unattended-upgrades==0.1
+urllib3==1.25.8
+vboxapi==1.0
+wadllib==1.3.3
+webencodings==0.5.1
+websocket-client==0.57.0
+Werkzeug==1.0.1
+whichcraft==0.6.1
+xcffib==0.8.1
+xkit==0.0.0
+youtube-dl==2020.9.20
+zope.interface==4.7.1
+```
 
 ## Summary
 
@@ -144,14 +287,17 @@ sudo -H pip3 install -r requirements.txt -t .
 sudo chown -R $USER: $AWS_LAMBDA_DIR
 pip3 freeze > requirements.txt
 chmod -R 755 *
-zip -r . ..
+zip -r ../$AWS_LAMBDA_ZIP .
 cd -
 ```
 
-You can examine the files in the created zip file:
+You can examine the files in the created zip file without unzipping them:
 ```shell
-$ unzip -l myDeploymentPackage.zip
+$ unzip -l $AWS_LAMBDA_ZIP
 ```
+
+My zip file had 2463 files so I won't list them here.
+
 
 ## Next Step
 
