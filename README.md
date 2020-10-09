@@ -41,6 +41,12 @@ If you want to type along:
    $ AWS_REGION=us-east-1
    ```
 
+5. Save the directory where the Lambda function resides into an environment variable called `AWS_LAMBDA_DIR`;
+   this directory already exists in this project so you should not change it unless you rename the directory.
+   ```script
+   AWS_LAMBDA_DIR=lambda
+   ```
+
 5. Save the name of the Lambda function you wish to invoke in an environment variable called `AWS_LAMBDA_NAME`; you can provide any
    [valid name](https://docs.aws.amazon.com/lambda/latest/dg/API_CreateFunction.html#API_CreateFunction_RequestParameters)
    you like here:
@@ -80,6 +86,7 @@ AWS_ACCOUNT_ID="$( aws sts get-caller-identity | jq -r .UserId )"
 AWS_REGION=us-east-1  # Modify to another AWS region if you like
 
 # Modify the following to suit your Lambda function
+AWS_LAMBDA_DIR=lambda
 AWS_LAMBDA_NAME=BackendLambda
 AWS_LAMBDA_ZIP=function.zip
 AWS_LAMBDA_RUNTIME=python3.8
@@ -94,5 +101,7 @@ The steps that follow will define additional environment variables.
 
 Continue on to [Create an AWS Lambda Function](LAMBDA.md).
 
+
 ## Acknowledgements
+
 I would like to thank Raju J. of Amazon Web Services for his kind and thoughtful input.
