@@ -1,7 +1,5 @@
-*.gz
 *.sublime*
 *.swp
-*.out
 *.Identifier
 *.log
 .idea*
@@ -10,18 +8,11 @@
 *~
 .DS_Store
 .idea
-.jekyll-cache/
-.jekyll-metadata
-.sass-cache/
 __pycache__/
 __MACOSX
-_site/
 ~*
-doc/
-package/
+lambda/*
 node_modules/
-Notepad++/
 run.py
 test.html
-RUNNING_PID
 function.zip
