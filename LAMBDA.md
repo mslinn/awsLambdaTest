@@ -85,37 +85,37 @@ to your userid and group:
 $ sudo chown -R $USER: $AWS_LAMBDA_DIR
 ```
 
-Files in `$AWS_LAMBDA_DIR` are now:
+Files and subdirectories in `$AWS_LAMBDA_DIR` are now:
 
 ```
 app.py
 bin/
-drwxr-xr-x 10 mslinn mslinn  4096 Oct  9 08:39 boto3/
-drwxr-xr-x  2 mslinn mslinn  4096 Oct  9 08:39 boto3-1.15.15.dist-info/
-drwxr-xr-x  7 mslinn mslinn  4096 Oct  9 08:39 botocore/
-drwxr-xr-x  2 mslinn mslinn  4096 Oct  9 08:39 botocore-1.18.15.dist-info/
-drwxr-xr-x  3 mslinn mslinn  4096 Oct  9 08:39 certifi/
-drwxr-xr-x  2 mslinn mslinn  4096 Oct  9 08:39 certifi-2020.6.20.dist-info/
-drwxr-xr-x  4 mslinn mslinn  4096 Oct  9 08:39 chardet/
-drwxr-xr-x  2 mslinn mslinn  4096 Oct  9 08:39 chardet-3.0.4.dist-info/
-drwxr-xr-x  6 mslinn mslinn  4096 Oct  9 08:39 dateutil/
-drwxr-xr-x  3 mslinn mslinn  4096 Oct  9 08:39 idna/
-drwxr-xr-x  2 mslinn mslinn  4096 Oct  9 08:39 idna-2.10.dist-info/
-drwxr-xr-x  3 mslinn mslinn  4096 Oct  9 08:39 jmespath/
-drwxr-xr-x  2 mslinn mslinn  4096 Oct  9 08:39 jmespath-0.10.0.dist-info/
-drwxr-xr-x  4 mslinn mslinn  4096 Oct  9 08:39 ptvsd/
-drwxr-xr-x  2 mslinn mslinn  4096 Oct  9 08:39 ptvsd-4.3.2.dist-info/
-drwxr-xr-x  2 mslinn mslinn  4096 Oct  9 08:39 __pycache__/
-drwxr-xr-x  2 mslinn mslinn  4096 Oct  9 08:39 python_dateutil-2.8.1.dist-info/
-drwxr-xr-x  3 mslinn mslinn  4096 Oct  9 08:39 requests/
-drwxr-xr-x  2 mslinn mslinn  4096 Oct  9 08:39 requests-2.24.0.dist-info/
--rw-rw-r--  1 mslinn mslinn    21 Oct  9 08:25 requirements.txt
-drwxr-xr-x  3 mslinn mslinn  4096 Oct  9 08:39 s3transfer/
-drwxr-xr-x  2 mslinn mslinn  4096 Oct  9 08:39 s3transfer-0.3.3.dist-info/
-drwxr-xr-x  2 mslinn mslinn  4096 Oct  9 08:39 six-1.15.0.dist-info/
--rw-r--r--  1 mslinn mslinn 34159 Oct  9 08:39 six.py
-drwxr-xr-x  6 mslinn mslinn  4096 Oct  9 08:39 urllib3/
-drwxr-xr-x  2 mslinn mslinn  4096 Oct  9 08:39 urllib3-1.25.10.dist-info/
+boto3/
+boto3-1.15.15.dist-info/
+botocore/
+botocore-1.18.15.dist-info/
+certifi/
+certifi-2020.6.20.dist-info/
+chardet/
+chardet-3.0.4.dist-info/
+dateutil/
+idna/
+idna-2.10.dist-info/
+jmespath/
+jmespath-0.10.0.dist-info/
+ptvsd/
+ptvsd-4.3.2.dist-info/
+__pycache__/
+python_dateutil-2.8.1.dist-info/
+requests/
+requests-2.24.0.dist-info/
+requirements.txt
+s3transfer/
+s3transfer-0.3.3.dist-info/
+six-1.15.0.dist-info/
+six.py
+urllib3/
+urllib3-1.25.10.dist-info/
 ```
 
 
