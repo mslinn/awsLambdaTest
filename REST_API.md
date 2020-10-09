@@ -30,7 +30,7 @@ Near the end of this page you will be instructed to create and save additional e
    a. Define the name of the API in an environment variable called `AWS_REST_NAME`
 
       ```script
-      $ aws apigateway create-rest-api \
+      $ ./capture aws apigateway create-rest-api \
         --name $AWS_REST_NAME \
         --region $AWS_REGION
       ```
@@ -54,7 +54,7 @@ Near the end of this page you will be instructed to create and save additional e
     b. Save the returned REST API `id` in an environment variable called `AWS_REST_ID`:
 
     ```script
-    $ AWS_REST_ID=vjwf063rz8
+    $ AWS_REST_ID="$( ./extract .id )"
     ```
 
 2. Call the `get-resources` command to get the `root` resource id.
@@ -63,7 +63,7 @@ Near the end of this page you will be instructed to create and save additional e
    It also forms the first subdomain of the REST invocation endpoint.
 
    ```script
-   $ aws apigateway get-resources \
+   $ ./capture aws apigateway get-resources \
      --rest-api-id $AWS_REST_ID \
      --region $AWS_REGION
    ```
@@ -84,13 +84,13 @@ Near the end of this page you will be instructed to create and save additional e
    Save the returned root resouce `id` in an environment variable called `AWS_APIG_ROOT_ID`:
 
    ```script
-   $ AWS_APIG_ROOT_ID=al6h0phbl7
+   $ AWS_APIG_ROOT_ID="$( ./extract .items[0].id )"
    ```
 
 3. Call `create-resource` to create an API Gateway Resource at `path-part $AWS_APIG_PATH_PART`:
 
    ```script
-   $ aws apigateway create-resource \
+   $ ./capture aws apigateway create-resource \
      --rest-api-id $AWS_REST_ID \
      --region $AWS_REGION \
      --parent-id $AWS_APIG_ROOT_ID \
@@ -110,7 +110,7 @@ Near the end of this page you will be instructed to create and save additional e
 
    Save the new resource id in an environment variable called `AWS_APIG_RESOURCE_ID`:
    ```script
-   AWS_APIG_RESOURCE_ID=4423uo
+   AWS_APIG_RESOURCE_ID="$( ./extract .id )"
    ```
 
 4. Call `put-method` to create an API method request for `POST /$AWS_APIG_PATH_PART`:
@@ -229,6 +229,7 @@ Near the end of this page you will be instructed to create and save additional e
    ```script
    $ cat &lt;&lt;EOF >> setEnvVars.sh
 
+
    # Added by following the instructions in REST_API.md:
    AWS_REST_ID=$AWS_REST_ID
    AWS_APIG_ROOT_ID=$AWS_APIG_ROOT_ID
@@ -271,6 +272,7 @@ Output is:
   }
 }
 ```
+
 
 ## Invoke the AWS Lambda from a POST
 

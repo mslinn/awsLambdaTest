@@ -88,7 +88,7 @@ Near the end of this page you will be instructed to create and save additional e
    Now re-load from `setEnvVars.sh`:
 
    ```script
-      source setEnvVars.sh
+   source setEnvVars.sh
    ```
 
 2. Permissions have not yet been provided for the Lambda to be executed by the API Gateway, so
