@@ -23,60 +23,6 @@ AWS_APIG_STAGE=test       # Usually called dev, prod or test
 Near the end of this page you will be instructed to create and save additional environment variables to `setEnvVars.sh` so you can return to this project at another time.
 
 
-## Create an IAM Role for the Lambda Function
-This instructions on this page are required for both the HTTP and the REST APIs.
-
-1) Create an IAM role which will act as a Lambda execution role.
-   We need to allow the Lambda service to assume this role in the trust policy.
-   This role will specify which AWS resources the Lambda function can access.
-   These instructions assume the Lambda function does not need to access any other AWS resources.
-
-   ```script
-   $ aws iam create-role --role-name $AWS_LAMBDA_ROLE_NAME \
-     --assume-role-policy-document '{
-       "Version": "2012-10-17",
-       "Statement": [
-         { "Effect": "Allow",
-           "Principal": { "Service": "lambda.amazonaws.com" },
-           "Action": "sts:AssumeRole"
-         }
-       ]
-     }'
-   ```
-
-   Output will be something like the following:
-   ```json
-   {
-       "Role": {
-           "Path": "/",
-           "RoleName": "$AWS_LAMBDA_ROLE_NAME",
-           "RoleId": "AROAQOTPVZIYJZ266OVNR",
-           "Arn": "$AWS_ROLE_ARN",
-           "CreateDate": "2020-10-07T16:00:16Z",
-           "AssumeRolePolicyDocument": {
-               "Version": "2012-10-17",
-               "Statement": [
-                   {
-                       "Effect": "Allow",
-                       "Principal": {
-                           "Service": "lambda.amazonaws.com"
-                       },
-                       "Action": "sts:AssumeRole"
-                   }
-               ]
-           }
-       }
-   }
-   ```
-
-2. `.Role.Arn` contains the IAM ARN that is needed in the next step.
-   Save it in an environment variable called `AWS_ROLE_ARN`.
-
-   ```script
-   $ AWS_ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_ID:role/$AWS_LAMBDA_ROLE_NAME"
-   ```
-
-
 ## Create an API Gateway REST API
 
 1. Call the `create-rest-api` command to create an API called `LambdaREST`.
