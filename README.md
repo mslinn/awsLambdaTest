@@ -1,6 +1,6 @@
 #  Command Line AWS Lambda, API Gateway and IAM
 
-This documents how to use a command line to define and invoke a Lambda function.
+This GitHub project documents how to use a command line to define and invoke an AWS Lambda function.
 Invocation will be via unsigned synchronous requests using two types of API Gateways: HTTP and REST.
 The reason for not requiring a request to be signed is so the API is publicly accessible.
 This means no security credentials are necessary to invoke the Lambda functions behind their API Gateways.
@@ -35,10 +35,22 @@ If you want to type along:
    ```
 
 4. Store the AWS region that you want to work with in an environment variable called `AWS_REGION`.
-   Set this to any [valid region](https://aws.amazon.com/about-aws/global-infrastructure/regions_az/) that you like:
+   You can use your default region:
 
    ```script
-   $ AWS_REGION=us-east-1
+   $ AWS_REGION="$( aws configure get region )"
+   ```
+
+   Examine the value of $AWS_REGION like this:
+   ```script
+   $ echo $AWS_REGION
+   us-east-1
+   ```
+
+   You could also set this to any [valid region](https://aws.amazon.com/about-aws/global-infrastructure/regions_az/) that you like:
+
+   ```script
+   $ AWS_REGION=eu-west-3
    ```
 
 5. Save the directory where the Lambda function resides into an environment variable called `AWS_LAMBDA_DIR`;
