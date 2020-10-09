@@ -1,11 +1,14 @@
 # HTTP API
+
+If you wish to type along and have not already performed the instructions on the [previous page](REGISTER.md) please do so now.
+
 The HTTP API features a
 [quick create](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop.html#http-api-examples.cli.quick-create)
 capability that creates an API with a Lambda or HTTP integration, and a default catch-all route,
 and a default stage that is configured to automatically deploy changes (to the Lambda?).
 
 
-## Step 2: Creating an API Gateway HTTP API
+## Create an API Gateway HTTP API
 
 Define a few environment variables:
 
@@ -82,5 +85,5 @@ AWS_APIG_NAME=LambdaHTTP
      $AWS_HTTP_INVOCATION_URL
    ```
 
-## Step 4) Debugging
-[Instructions are here.](DEBUGGING.md)
+## Next Step
+Continue on to [Debugging](DEBUGGING.md).

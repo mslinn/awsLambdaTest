@@ -1,6 +1,8 @@
 # REST API
 
-## Step 2: Creating an API Gateway API
+If you wish to type along and have not already performed the instructions on the [previous page](REGISTER.md) please do so now.
+
+## Create an API Gateway REST API
 
 Define a few environment variables:
 
@@ -268,5 +270,5 @@ $ curl --no-progress-meter \
 ```
 
 
-## Step 4) Debugging
-[Instructions are here.](DEBUGGING.md)
+## Next Step
+Continue on to [Debugging](DEBUGGING.md).
