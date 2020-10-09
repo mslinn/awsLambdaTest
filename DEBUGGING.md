@@ -16,38 +16,4 @@ More information on Lambda payloads sent by the HTTP and REST APIs may be found
 [here](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-vs-rest.html).
 
 
-## Updating Lambda Functions
-To update the Lambda function that we defined [earlier](LAMBDA.md), recreate `$AWS_LAMBDA_ZIP` and then call `update-function-code`:
-
-```script
-$ aws lambda update-function-code \
-  --function-name $AWS_LAMBDA_NAME \
-  --zip-file fileb://$AWS_LAMBDA_ZIP
-```
-
-Output is:
-
-```json
-{
-    "FunctionName": "$AWS_LAMBDA_NAME",
-    "FunctionArn": "$AWS_LAMBDA_ARN",
-    "Runtime": "$AWS_LAMBDA_RUNTIME",
-    "Role": "$AWS_ROLE_ARN",
-    "Handler": "addSubscriberAwsLambda.lambda_handler",
-    "CodeSize": 1491007,
-    "Description": "",
-    "Timeout": 3,
-    "MemorySize": 128,
-    "LastModified": "2020-10-07T18:05:17.356+0000",
-    "CodeSha256": "fDcOeBsHCo0QNVGpLUFaElBZUDuhDm365bF+QL0dNqE=",
-    "Version": "$LATEST",
-    "TracingConfig": {
-        "Mode": "PassThrough"
-    },
-    "RevisionId": "5e895712-f86d-4194-8f91-bc16b15df7a2",
-    "State": "Active",
-    "LastUpdateStatus": "Successful"
-}
-```
-
 ## All Done!

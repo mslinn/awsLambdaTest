@@ -320,6 +320,59 @@ $ unzip -l $AWS_LAMBDA_ZIP
 My zip file had 2463 files in it so I won't list them here.
 
 
+## Updating Lambda Function Code
+To update the Lambda function with modified code, recreate `$AWS_LAMBDA_ZIP` and then call `update-function-code`:
+
+```script
+$ aws lambda update-function-code \
+  --function-name $AWS_LAMBDA_NAME \
+  --zip-file fileb://$AWS_LAMBDA_ZIP
+```
+
+Output is:
+
+```json
+{
+    "FunctionName": "$AWS_LAMBDA_NAME",
+    "FunctionArn": "$AWS_LAMBDA_ARN",
+    "Runtime": "$AWS_LAMBDA_RUNTIME",
+    "Role": "$AWS_ROLE_ARN",
+    "Handler": "addSubscriberAwsLambda.lambda_handler",
+    "CodeSize": 1491007,
+    "Description": "",
+    "Timeout": 3,
+    "MemorySize": 128,
+    "LastModified": "2020-10-07T18:05:17.356+0000",
+    "CodeSha256": "fDcOeBsHCo0QNVGpLUFaElBZUDuhDm365bF+QL0dNqE=",
+    "Version": "$LATEST",
+    "TracingConfig": {
+        "Mode": "PassThrough"
+    },
+    "RevisionId": "5e895712-f86d-4194-8f91-bc16b15df7a2",
+    "State": "Active",
+    "LastUpdateStatus": "Successful"
+}
+```
+
+## Updating Lambda Function Code
+
+If the Lambda function modification included changing the name of the entry point,
+tell AWS about the modified entry point name with `update-function-configuration`.
+For example, if the new handler is the method `ooh_baby` in `my_file.py`:
+
+```script
+$ AWS_LAMBDA_HANDLER=my_file.ooh_baby
+$ aws lambda update-function-configuration \
+  --function-name $AWS_LAMBDA_NAME \
+  --handler $AWS_LAMBDA_HANDLER
+```
+
+If you have been using [`setEnvVars.sh`](setEnvVars.sh) then you should edit the value of `AWS_LAMBDA_HANDLER` in that file to suit.
+You could do that from the command line like this:
+```shell
+$ sed -i '/AWS_LAMBDA_HANDLER/c\AWS_LAMBDA_HANDLER=my_file.ooh_baby' setEnvVars.sh
+```
+
 ## Next Step
 
 Continue on to [Create IAM Role for the AWS Lambda Function and Register the Lambda Function](REGISTER.md).

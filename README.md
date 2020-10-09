@@ -71,7 +71,7 @@ If you want to type along:
    For example, if the Python source code file is called `echo.py` and
    the handler is called `handler`, the value would be:
    ```script
-   $ AWS_LAMBDA_HANDLER=echo.handler  # Modify to suit your Lambda function
+   $ AWS_LAMBDA_HANDLER=echo.lambda_handler  # Modify to suit your Lambda function
    ```
 
 9. Compute the Lambda function's ARN and save in an environment variable called `AWS_LAMBDA_ARN`:
@@ -90,7 +90,7 @@ AWS_LAMBDA_DIR=lambda
 AWS_LAMBDA_NAME=BackendLambda
 AWS_LAMBDA_ZIP=function.zip
 AWS_LAMBDA_RUNTIME=python3.8
-AWS_LAMBDA_HANDLER=echo.handler
+AWS_LAMBDA_HANDLER=echo.lambda_handler
 AWS_LAMBDA_ARN="arn:aws:lambda:$AWS_REGION:$AWS_ACCOUNT_ID:function:$AWS_LAMBDA_NAME"
 ```
 
