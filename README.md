@@ -20,7 +20,10 @@ If you want to type along:
    $ aws configure
    ```
 
-3. Run the `makeSetEnvVars.sh` script to create `setEnvVars.sh`, which defines the environment variables that this tutorial uses when it is processed by the bash `source` command.
+3. Examine `makeSetEnvVars.sh` and make any changes you like for the environment variables that are indicated as being modifiable.
+
+3. Run the `makeSetEnvVars.sh` script to create `setEnvVars.sh`,
+   which defines the environment variables that this tutorial uses when it is processed by the bash `source` command.
 
    ```shell
    $ ./makeSetEnvVars.sh

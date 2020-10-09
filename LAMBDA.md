@@ -1,8 +1,9 @@
 # Create an AWS Lambda Function
 
-This step is common to both the REST and the HTTP APIs.
+The instructions on this page are common to both the REST and the HTTP APIs.
 If you wish to type along and have not already performed the instructions on the [previous page](README.md) please do so now.
-The commands necessary are summarized at the end of this page.
+
+The commands necessary to accomplish all of the instructions on this page are [summarized](#user-content-summary) at the end of this page.
 
 [The AWS CLI Getting Started documentation](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-awscli.html)
 details the steps required for creating the lambda function via the command line.
@@ -18,7 +19,7 @@ More information about creating a Lambda deployment package for Python is availa
 
 ## Resuming Your Work
 
-The instructions on this page use the following environment variables from `setEnvVars.sh`:
+The instructions on this page use the following environment variables from `setEnvVars.sh`, which I provided as:
 
 ```script
 AWS_LAMBDA_DIR=lambda
@@ -48,12 +49,12 @@ $ cd "$AWS_LAMBDA_DIR"
 As a very simple example, here is a sample Python 3.8 program that merely prints the incoming event.
 Although this program could be incorporated into an AWS Lambda function,
 we aren't going to use this program in this example.
-Note that the file containing the program should be called `index.py` in order to match the handler name (`index.handler`):
+Note that the file containing the program should be called `blah.py` in order to match the handler name (`blah.my_handler`):
 
 ```python
 import json
 
-def handler(event, context):
+def my_handler(event, context):
     print(event)
     return {
         'message': 'Lambda has received your message !'
@@ -63,10 +64,10 @@ def handler(event, context):
 
 ## The Actual Python Program for Our AWS Lambda Function
 
-[echo.py](lambda/echo.py) contains the code to echo an API Gateway request, including any HTTP `x-www-form-urlencoded` data.
+[echo.py](lambda/echo.py) contains Python code for echoing an API Gateway request, including any HTTP `x-www-form-urlencoded` data.
 
-I created the file [`requirements.txt`](https://pip.pypa.io/en/stable/user_guide/#requirements-files)
-in the `$AWS_LAMBDA_DIR` directory, and it looks like this:
+The file [`requirements.txt`](https://pip.pypa.io/en/stable/user_guide/#requirements-files)
+in the `$AWS_LAMBDA_DIR` directory looks like this:
 
 ```
 requests
@@ -134,7 +135,7 @@ change the owner and group of the contents in the `$AWS_LAMBDA_DIR` directory fr
 to your userid and group:
 
 ```shell
-$ sudo chown -R $USER: $AWS_LAMBDA_DIR
+$ sudo chown -R $USER: .
 ```
 
 Files and subdirectories in `$AWS_LAMBDA_DIR` are now:
@@ -326,7 +327,9 @@ zope.interface==4.7.1
 ## Summary
 
 ```shell
+source setEnvVars.sh
 cd "$AWS_LAMBDA_DIR"
+# sudo chown -R $USER: .
 pip3 install -r requirements.txt -t .
 pip3 freeze > requirements.txt
 zip -r ../$AWS_LAMBDA_ZIP .
@@ -381,24 +384,25 @@ Output is:
 If the Lambda function modification included changing the name of the main Python program file, and/or renaming the hander function,
 tell AWS about the modified entry point name with `update-function-configuration`.
 
-If you have been using [`setEnvVars.sh`](setEnvVars.sh) then you should edit the value of `AWS_LAMBDA_HANDLER` in that file to suit.
-For example, if the new handler is the method `ooh_baby` in `my_file.py`, you could do that from the command line like this:
+You should first change the value of `AWS_LAMBDA_HANDLER` in [`makeSetEnvVars.sh`](makeSetEnvVars.sh) to suit.
+For example, if the new handler is the method `ooh_baby` in `my_file.py`, you could change the value from the command line like this:
 
 ```shell
-$ sed -i '/AWS_LAMBDA_HANDLER/c\AWS_LAMBDA_HANDLER=my_file.ooh_baby' setEnvVars.sh
+$ sed -i '/AWS_LAMBDA_HANDLER/c\AWS_LAMBDA_HANDLER=my_file.ooh_baby' makeSetEnvVars.sh
 ```
 
 Verify that it worked:
 
 ```shell
-$ grep AWS_LAMBDA_HANDLER setEnvVars.sh
+$ grep AWS_LAMBDA_HANDLER makeSetEnvVars.sh
 AWS_LAMBDA_HANDLER=my_file.ooh_baby
 ```
 
-Now re-source the file so the new value of the `AWS_LAMBDA_NAME` environment variable is used, and tell AWS about the change:
+Now re-source `setEnvVars.sh` so the new value of the `AWS_LAMBDA_NAME` environment variable is used, and tell AWS about the change:
 
 ```script
 $ source setEnvVars.sh
+
 $ aws lambda update-function-configuration \
   --function-name $AWS_LAMBDA_NAME \
   --handler $AWS_LAMBDA_HANDLER
@@ -427,6 +431,7 @@ Output will be something like:
     "LastUpdateStatus": "Successful"
 }
 ```
+
 
 ## Other Modifications To the Lambda Function
 
