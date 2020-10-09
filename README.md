@@ -1,7 +1,7 @@
 #  Command Line AWS Lambda, API Gateway and IAM
 
 This documents how to use a command line to define and invoke a Lambda function.
-Invocation will be via unsigned requests using two types of API Gateways: HTTP and REST.
+Invocation will be via unsigned synchronous requests using two types of API Gateways: HTTP and REST.
 The reason for not requiring a request to be signed is so the API is publicly accessible.
 This means no security credentials are necessary to invoke the Lambda functions behind their API Gateways.
 
@@ -70,7 +70,7 @@ If you want to type along:
 
 9. Compute the Lambda function's ARN and save in an environment variable called `AWS_LAMBDA_ARN`:
    ```script
-   $ AWS_LAMBDA_ARN= "arn:aws:lambda:$AWS_REGION:$AWS_ACCOUNT_ID:function:$AWS_LAMBDA_NAME"
+   $ AWS_LAMBDA_ARN="arn:aws:lambda:$AWS_REGION:$AWS_ACCOUNT_ID:function:$AWS_LAMBDA_NAME"
    ```
 
 To summarize, copy the following to your clipboard, possibly edit the values in a text editor,
@@ -84,7 +84,7 @@ AWS_LAMBDA_NAME=BackendLambda
 AWS_LAMBDA_ZIP=function.zip
 AWS_LAMBDA_RUNTIME=python3.8
 AWS_LAMBDA_HANDLER=echo.handler
-AWS_LAMBDA_ARN= "arn:aws:lambda:$AWS_REGION:$AWS_ACCOUNT_ID:function:$AWS_LAMBDA_NAME"
+AWS_LAMBDA_ARN="arn:aws:lambda:$AWS_REGION:$AWS_ACCOUNT_ID:function:$AWS_LAMBDA_NAME"
 ```
 
 The steps that follow will define additional environment variables.
@@ -92,7 +92,7 @@ The steps that follow will define additional environment variables.
 
 ## Next Step
 
-Continue on to [Create IAM Role for the AWS Lambda Function and Register the Lambda Function](REGISTER.md).
+Continue on to [Create an AWS Lambda Function](LAMBDA.md).
 
 ## Acknowledgements
 I would like to thank Raju J. of Amazon Web Services for his kind and thoughtful input.
