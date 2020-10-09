@@ -20,108 +20,12 @@ If you want to type along:
    $ aws configure
    ```
 
- The remainder of these setup instructions are shown after they are introduced, all together,
- so you can copy them, perhaps edit their values, and paste them into a command line prompt.
+3. Run the `makeSetEnvVars.sh` script to create `setEnvVars.sh`, which defines the environment variables that this tutorial uses.
 
-3. Define an environment variable called `AWS_ACCOUNT_ID` by typing the following:
-
-   ```script
-   $ AWS_ACCOUNT_ID="$( aws sts get-caller-identity | jq -r .UserId )"
+   ```shell
+   $ ./makeSetEnvVars.sh
+   $ source setEnvVars.sh
    ```
-   You can examine the value of `AWS_ACCOUNT_ID` by typing:
-   ```script
-   $ echo $AWS_ACCOUNT_ID
-   031772722783
-   ```
-
-4. Store the AWS region that you want to work with in an environment variable called `AWS_REGION`.
-   You can use your default region:
-
-   ```script
-   $ AWS_REGION="$( aws configure get region )"
-   ```
-
-   Examine the value of $AWS_REGION like this:
-   ```script
-   $ echo $AWS_REGION
-   us-east-1
-   ```
-
-   You could also set this to any [valid region](https://aws.amazon.com/about-aws/global-infrastructure/regions_az/) that you like:
-
-   ```script
-   $ AWS_REGION=eu-west-3
-   ```
-
-5. Save the directory where the Lambda function resides into an environment variable called `AWS_LAMBDA_DIR`;
-   this directory already exists in this project so you should not change it unless you rename the directory.
-   ```script
-   AWS_LAMBDA_DIR=lambda
-   ```
-
-5. Save the name of the Lambda function you wish to invoke in an environment variable called `AWS_LAMBDA_NAME`; you can provide any
-   [valid name](https://docs.aws.amazon.com/lambda/latest/dg/API_CreateFunction.html#API_CreateFunction_RequestParameters)
-   you like here:
-   ```script
-   $ AWS_LAMBDA_NAME=BackendLambda
-   ```
-
-6. Save the name of the zip file contaning the Lambda function in an environment variable called `AWS_LAMBDA_ZIP`:
-   ```script
-   $ AWS_LAMBDA_ZIP=function.zip  # Modify to suit your Lambda function
-   ```
-
-7. Save the runtime of the Lambda function in an environment variable called `AWS_LAMBDA_RUNTIME`:
-   ```script
-   $ AWS_LAMBDA_RUNTIME=python3.8  # Modify to suit your Lambda function
-   ```
-
-8. Save the entry point (AWS documentation calls this a `handler`)
-   for the Lambda function in an environment variable called `AWS_LAMBDA_NAME`.
-   The first portion of the value is the name of the Python source code in the zip file
-   containing the handler, and the second portion of the value is the name of the handler function in that file.
-   For example, if the Python source code file is called `echo.py` and
-   the handler is called `handler`, the value would be:
-   ```script
-   $ AWS_LAMBDA_HANDLER=echo.lambda_handler  # Modify to suit your Lambda function
-   ```
-
-9. Compute the Lambda function's ARN and save in an environment variable called `AWS_LAMBDA_ARN`:
-   ```script
-   $ AWS_LAMBDA_ARN="arn:aws:lambda:$AWS_REGION:$AWS_ACCOUNT_ID:function:$AWS_LAMBDA_NAME"
-   ```
-
-To summarize, copy the following to your clipboard, possibly edit the values in a text editor,
-then paste the lines into a command line prompt:
-```script
-AWS_ACCOUNT_ID="$( aws sts get-caller-identity | jq -r .UserId )"
-AWS_REGION=us-east-1  # Modify to another AWS region if you like
-
-# Modify the following to suit your Lambda function
-AWS_LAMBDA_DIR=lambda
-AWS_LAMBDA_NAME=BackendLambda
-AWS_LAMBDA_ZIP=function.zip
-AWS_LAMBDA_RUNTIME=python3.8
-AWS_LAMBDA_HANDLER=echo.lambda_handler
-AWS_LAMBDA_ARN="arn:aws:lambda:$AWS_REGION:$AWS_ACCOUNT_ID:function:$AWS_LAMBDA_NAME"
-
-# Discussed in HTTP_API.md and REST_API.md:
-AWS_APIG_PATH_PART=demo   # Part of the URL path to invoke the Lambda function
-
-# Discussed in HTTP_API.md:
-AWS_APIG_TARGET_ARN="arn:aws:lambda:$AWS_REGION:$AWS_ACCOUNT_ID:function:$AWS_LAMBDA_NAME"
-AWS_APIG_NAME=LambdaHTTP
-
-# Discussed in REST_API.md:
-AWS_REST_NAME=LambdaREST  # Name of the REST API can be anything
-AWS_APIG_STAGE=test       # Usually called dev, prod or test
-```
-
-I saved the above into a file called `setEnvVars.sh`, so you can set the environment variables by typing:
-
-```shell
-source setEnvVars.sh
-```
 
 The steps that follow will define additional environment variables.
 
