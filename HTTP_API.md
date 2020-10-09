@@ -51,12 +51,12 @@ AWS_APIG_NAME=LambdaHTTP
    Save these environment variables to `setEnvVars.sh` and re-source it:
 
    ```script
-   $ cat <<EOF
+   $ cat &lt;&lt;EOF >> setEnvVars.sh
 
    # Added by following the instructions in HTTP_API.md:
    AWS_APIG_HTTP_ID=y5sy8ty98g
    AWS_HTTP_INVOCATION_URL=https://$AWS_APIG_HTTP_ID.execute-api.$AWS_REGION.amazonaws.com/$AWS_APIG_PATH_PART/
-   EOF >> setEnvVars.sh
+   EOF
 
    $ source setEnvVars.sh
    ```
