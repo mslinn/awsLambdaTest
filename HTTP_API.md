@@ -7,8 +7,7 @@ The HTTP API features a
 capability that creates an API with a Lambda or HTTP integration, and a default catch-all route,
 and a default stage that is configured to automatically deploy changes (to the Lambda?).
 
-
-## Create an API Gateway HTTP API
+## Saving Your Work
 
 We will use these environment variables from `setEnvVars.sh`:
 
@@ -17,6 +16,11 @@ AWS_APIG_PATH_PART=demo   # Part of the URL path to invoke the Lambda function
 AWS_APIG_TARGET_ARN="arn:aws:lambda:$AWS_REGION:$AWS_ACCOUNT_ID:function:$AWS_LAMBDA_NAME"
 AWS_APIG_NAME=LambdaHTTP
 ```
+
+This page will tell you to create and save additional environment variables to `setEnvVars.sh` so you can return to this project at another time.
+
+
+## Create an API Gateway HTTP API
 
 1. Call the `create-api` command to create an API with the desired name.
    This command maps the Lambda to the route "/$AWS_APIG_PATH_PART".

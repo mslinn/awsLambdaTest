@@ -1,8 +1,10 @@
 # REST API
 
-If you wish to type along and have not already performed the instructions on the [previous page](REGISTER.md) please do so now.
+If you wish to type along and have not already performed the instructions on the
+[previous page](REGISTER.md) please do so now.
 
-## Create an API Gateway REST API
+
+## Saving Your Work
 
 We will use these environment variables from `setEnvVars.sh`:
 
@@ -11,6 +13,11 @@ AWS_REST_NAME=LambdaREST  # Name of the REST API can be anything
 AWS_APIG_PATH_PART=demo   # Part of the URL path to invoke the Lambda function
 AWS_APIG_STAGE=test       # Usually called dev, prod or test
 ```
+
+This page will tell you to create and save additional environment variables to `setEnvVars.sh` so you can return to this project at another time.
+
+
+## Create an API Gateway REST API
 
 1. Call the `create-rest-api` command to create an API called `LambdaREST`.
 
