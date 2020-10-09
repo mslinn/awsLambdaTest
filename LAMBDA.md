@@ -338,7 +338,7 @@ cd -
 
 You can examine the files in the created zip file without unzipping them:
 ```shell
-$ unzip -l $AWS_LAMBDA_ZIP
+$ unzip -l $AWS_LAMBDA_ZIP | less
 ```
 
 My zip file had 2463 files in it so I won't list them here.
