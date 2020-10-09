@@ -12,8 +12,7 @@ This instructions on this page are required for both the HTTP and the REST APIs.
    These instructions assume the Lambda function does not need to access any other AWS resources.
 
    ```script
-   $ AWS_LAMBDA_ROLE_NAME=lambda-ex
-   $ aws iam create-role --role-name $AWS_LAMBDA_ROLE_NAME \
+   $ ./capture aws iam create-role --role-name $AWS_LAMBDA_ROLE_NAME \
      --assume-role-policy-document '{
        "Version": "2012-10-17",
        "Statement": [
@@ -54,7 +53,7 @@ This instructions on this page are required for both the HTTP and the REST APIs.
    Save it in an environment variable called `AWS_ROLE_ARN`.
 
    ```script
-   $ AWS_ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_ID:role/$AWS_LAMBDA_ROLE_NAME"
+   $ AWS_ROLE_ARN=$( ./extract .Role.Arn )
    ```
 
 

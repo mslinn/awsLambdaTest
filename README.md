@@ -11,6 +11,8 @@ The same Lambda function is invoked via two mechanisms (HTTP and REST), using th
 The initial steps are the same for both mechanisms.
 Subsequent steps are explained separately.
 
+## Setup
+
 If you want to type along:
 
 1. Install [AWS CLI](https://aws.amazon.com/cli/) and [jq](https://stedolan.github.io/jq/download/).
@@ -30,7 +32,16 @@ If you want to type along:
    $ source setEnvVars.sh
    ```
 
-The steps that follow will define additional environment variables.
+The pages that follow will define additional environment variables.
+
+
+## Bash Scripts
+
+This project provides two bash scripts: `capture` and `extract` for working with commands that generate JSON to `stdout`.
+
+ - The `capture` script runs commands and saves `stdout` to a hidden file called `.result`.
+ - The `extract` script assumes that `.result` contains JSON and extracts values from it using `jq`.
+   The same values are echoed to `STDOUT` and `STDERR` so the script can assign output to an environment variable and also display it.
 
 
 ## Next Step

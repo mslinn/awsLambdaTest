@@ -4,7 +4,7 @@
 # Example: ./capture aws sts get-caller-identity
 
 if [ -z "$1" ]; then
-  2> echo "Error: no shell command provided."
+  >&2 echo "Error: no shell command provided."
 fi
 
 echo $( $@ ) > .result

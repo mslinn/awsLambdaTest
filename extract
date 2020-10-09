@@ -4,7 +4,9 @@
 # Example: extract .UserId
 
 if [ -z "$1" ]; then
-  2> echo "Error: no jq specification provided."
+  >&2 echo "Error: no jq specification provided."
 fi
 
-echo $( cat .result | jq -r $@ )
+RESULT=$( cat .result | jq -r $@ )
+echo $RESULT
+>&2 echo $RESULT
