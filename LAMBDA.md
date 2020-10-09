@@ -132,7 +132,7 @@ urllib3-1.25.10.dist-info/
 ## Update `requirements.txt`
 
 ```shell
-(cd "$AWS_LAMBDA_DIR"; pip3 freeze >  requirements.txt)
+pip3 freeze >  requirements.txt
 ```
 
 
