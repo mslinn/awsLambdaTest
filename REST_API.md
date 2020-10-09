@@ -212,8 +212,20 @@ AWS_APIG_STAGE=test       # Usually called dev, prod or test
    More information about creating an API and integrating it with the Lambda backend is
    [here](https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-custom-integrations.html).
 
+9. Save the new environment variables into `setEnvVars.sh` in case you want to stop now and return to this in the future:
+   ```script
+   $ cat &lt;&lt;EOF >> setEnvVars.sh
 
-## Step 3: Allowing Lambda To Be Invoked by API Gateway Using Lambda's Resource-Based Policy
+   # Added by following the instructions in REST_API.md:
+   AWS_REST_ID=$AWS_REST_ID
+   AWS_APIG_ROOT_ID=$AWS_APIG_ROOT_ID
+   AWS_APIG_RESOURCE_ID=$AWS_APIG_RESOURCE_ID
+   AWS_LAMBDA_INVOCATION_URL=$AWS_LAMBDA_INVOCATION_URL
+   EOF
+   ```
+
+
+## Allow Lambda To Be Invoked by API Gateway Using Lambda's Resource-Based Policy
 
 The `source-arn` parameter of the `add-permission` subcommand needs the AWS account ID and the gateway REST API ID.
 The second-last token in the `source-arn` is shown as `POST`, which authorizes `POST` requests.
@@ -247,7 +259,10 @@ Output is:
 }
 ```
 
+## Invoke the AWS Lambda from a POST
+
 Now you can make `POST` requests to the API gateway's invocation URL like this:
+
 ```script
 $ curl --no-progress-meter \
   -d 'param1=value1' \
