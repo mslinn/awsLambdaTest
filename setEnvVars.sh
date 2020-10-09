@@ -2,5 +2,5 @@ AWS_LAMBDA_DIR=lambda
 AWS_LAMBDA_NAME=BackendLambda
 AWS_LAMBDA_ZIP=function.zip
 AWS_LAMBDA_RUNTIME=python3.8
-AWS_LAMBDA_HANDLER=echo.handler
+AWS_LAMBDA_HANDLER=echo.lambda_handler
 AWS_LAMBDA_ARN="arn:aws:lambda:$AWS_REGION:$AWS_ACCOUNT_ID:function:$AWS_LAMBDA_NAME"

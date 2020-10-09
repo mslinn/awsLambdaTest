@@ -16,4 +16,9 @@ More information on Lambda payloads sent by the HTTP and REST APIs may be found
 [here](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-vs-rest.html).
 
 
+## Modifying the Lambda Code
+
+It is normal in the software development process to need to modify the program code.
+I [described how to do](LAMBDA.md#updating-lambda-function-code) that previously.
+
 ## All Done!

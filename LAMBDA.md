@@ -354,18 +354,20 @@ Output is:
 }
 ```
 
-## Updating Lambda Function Code
+## Renaming the Lambda Function Entry Point
 
-If the Lambda function modification included changing the name of the entry point,
+If the Lambda function modification included changing the name of the main Python program file, and/or renaming the hander function,
 tell AWS about the modified entry point name with `update-function-configuration`.
 
 If you have been using [`setEnvVars.sh`](setEnvVars.sh) then you should edit the value of `AWS_LAMBDA_HANDLER` in that file to suit.
 For example, if the new handler is the method `ooh_baby` in `my_file.py`, you could do that from the command line like this:
+
 ```shell
 $ sed -i '/AWS_LAMBDA_HANDLER/c\AWS_LAMBDA_HANDLER=my_file.ooh_baby' setEnvVars.sh
 ```
 
 Verify that it worked:
+
 ```shell
 $ grep AWS_LAMBDA_HANDLER setEnvVars.sh
 AWS_LAMBDA_HANDLER=my_file.ooh_baby
@@ -380,6 +382,37 @@ $ aws lambda update-function-configuration \
   --handler $AWS_LAMBDA_HANDLER
 ```
 
+Output will be something like:
+```json
+{
+    "FunctionName": "$AWS_LAMBDA_NAME",
+    "FunctionArn": "$AWS_LAMBDA_ARN",
+    "Runtime": "$AWS_LAMBDA_RUNTIME",
+    "Role": "$AWS_ROLE_ARN",
+    "Handler": "$AWS_LAMBDA_HANDLER",
+    "CodeSize": 14747364,
+    "Description": "",
+    "Timeout": 3,
+    "MemorySize": 128,
+    "LastModified": "2020-10-09T14:47:13.787+0000",
+    "CodeSha256": "gxjzEYIfb5vlmPcH3kFIdaINy7xrZjke9e/uCTbHY2k=",
+    "Version": "$LATEST",
+    "TracingConfig": {
+        "Mode": "PassThrough"
+    },
+    "RevisionId": "26a1facd-0401-46f7-ac6b-fbfdc661dd57",
+    "State": "Active",
+    "LastUpdateStatus": "Successful"
+}
+```
+
+## Other Modifications To the Lambda Function
+
+To learn about the other aspects of the lambda function that can be modified, view the output of:
+
+```script
+$ aws lambda update-function-configuration help
+```
 
 
 ## Next Step
