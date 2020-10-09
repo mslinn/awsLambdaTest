@@ -1,8 +1,11 @@
 # Create an AWS Lambda Function
 
-If you wish to type along and have not already performed the instructions on the [previous page](README.md) please do so now.
-
 This step is common to both the REST and the HTTP APIs.
+If you wish to type along and have not already performed the instructions on the [previous page](README.md) please do so now.
+The commands necessary are summarized at the end of this page.
+
+[The AWS CLI Getting Started documentation](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-awscli.html)
+details the steps required for creating the lambda function via the command line.
 
 These instructions are based on
 [How do I build an AWS Lambda deployment package for Python?](https://aws.amazon.com/premiumsupport/knowledge-center/build-python-lambda-deployment-package/).
@@ -10,7 +13,8 @@ These instructions are based on
 The [ATS sam build and package](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-cli-command-reference-sam-build.html)
 commands can build AWS Lambda functions into zip file, but this document describes a simpler approach.
 
-The commands necessary are summarized at the end of this page.
+More information about creating a Lambda deployment package for Python is available
+[here](https://docs.aws.amazon.com/lambda/latest/dg/python-package.html).
 
 
 ## Move to the `"$AWS_LAMBDA_DIR` Directory
@@ -20,7 +24,25 @@ Most of our work for this page will be done in the $AWS_LAMBDA_DIR directory, so
 cd "$AWS_LAMBDA_DIR"
 ```
 
-## Python 3.8 Code for AWS Lambda Function
+## A Very Simple Python Program for an AWS Lambda Function
+As a very simple example, here is a sample Python 3.8 program that merely prints the incoming event.
+Although this program could be incorporated into an AWS Lambda function,
+we aren't going to use this program in this example.
+Note that the file containing the program should be called `index.py` in order to match the handler name (`index.handler`):
+
+```python
+import json
+
+def handler(event, context):
+    print(event)
+    return {
+        'message': 'Lambda has received your message !'
+    }
+```
+
+
+## The Actual Python Program for Our AWS Lambda Function
+
 [app.py](lambda/app.py) contains the code to echo an API Gateway request, including any HTTP `x-www-form-urlencoded` data.
 
 I created the file [`requirements.txt`](https://pip.pypa.io/en/stable/user_guide/#requirements-files)
@@ -33,7 +55,7 @@ boto3
 ```
 
 
-## Build ZIP Containing AWS Lambda Function and Dependencies
+## Build a ZIP Containing the AWS Lambda Function and Dependencies
 
 Now we can build a zip file containing the Lambda function and its dependencies.
 The requirements file is updated by this process as well.
@@ -296,7 +318,7 @@ You can examine the files in the created zip file without unzipping them:
 $ unzip -l $AWS_LAMBDA_ZIP
 ```
 
-My zip file had 2463 files so I won't list them here.
+My zip file had 2463 files in it so I won't list them here.
 
 
 ## Next Step
