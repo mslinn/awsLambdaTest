@@ -1,4 +1,4 @@
-# Create IAM Role for the AWS Lambda Function and Register the Lambda Function
+# Create IAM Role for the Lambda and the Lambda Itself
 
 If you wish to type along and have not already performed the instructions on the [previous page](LAMBDA.md) please do so now.
 
