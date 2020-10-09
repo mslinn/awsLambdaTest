@@ -10,6 +10,15 @@ These instructions are based on
 The [ATS sam build and package](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-cli-command-reference-sam-build.html)
 commands can build AWS Lambda functions into zip file, but this document describes a simpler approach.
 
+The commands necessary are summarized at the end of this page.
+
+
+## Move to the `"$AWS_LAMBDA_DIR` Directory
+Most of our work for this page will be done in the $AWS_LAMBDA_DIR directory, so make it current:
+
+```shell
+cd "$AWS_LAMBDA_DIR"
+```
 
 ## Python 3.8 Code for AWS Lambda Function
 [app.py](lambda/app.py) contains the code to echo an API Gateway request, including any HTTP `x-www-form-urlencoded` data.
@@ -23,8 +32,6 @@ ptvsd
 boto3
 ```
 
-The commands necessary are summarized at the end of this page.
-
 
 ## Build ZIP Containing AWS Lambda Function and Dependencies
 
@@ -35,7 +42,7 @@ If you get a permission denied error when running the following command,
 rerun it and preface the command with `sudo -H`:
 
 ```
-$ pip3 install -r "$AWS_LAMBDA_DIR/requirements.txt" -t "$AWS_LAMBDA_DIR"
+$ pip3 install -r requirements.txt -t .
 Warning: No xauth data; using fake authentication data for X11 forwarding.
 X11 forwarding request failed on channel 0
 Enumerating objects: 5, done.
@@ -132,11 +139,13 @@ urllib3-1.25.10.dist-info/
 ## Summary
 
 ```shell
-sudo -H pip3 install -r "$AWS_LAMBDA_DIR/requirements.txt" -t "$AWS_LAMBDA_DIR"
+cd "$AWS_LAMBDA_DIR"
+sudo -H pip3 install -r requirements.txt -t .
 sudo chown -R $USER: $AWS_LAMBDA_DIR
-(cd "$AWS_LAMBDA_DIR"; pip3 freeze >  "$AWS_LAMBDA_DIR/requirements.txt")
-chmod -R 755 "$AWS_LAMBDA_DIR"
-(cd "$AWS_LAMBDA_DIR"; zip -r "$AWS_LAMBDA_ZIP" .)
+pip3 freeze > requirements.txt
+chmod -R 755 *
+zip -r . ..
+cd -
 ```
 
 You can examine the files in the created zip file:
