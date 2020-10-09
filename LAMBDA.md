@@ -7,6 +7,9 @@ This step is common to both the REST and the HTTP APIs.
 These instructions are based on
 [How do I build an AWS Lambda deployment package for Python?](https://aws.amazon.com/premiumsupport/knowledge-center/build-python-lambda-deployment-package/).
 
+The [ATS sam build and package](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-cli-command-reference-sam-build.html)
+commands can build AWS Lambda functions into zip file, but this document describes a simpler approach.
+
 
 ## Python 3.8 Code for AWS Lambda Function
 [app.py](lambda/app.py) contains the code to echo an API Gateway request, including any HTTP `x-www-form-urlencoded` data.
