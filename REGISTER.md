@@ -2,6 +2,17 @@
 
 If you wish to type along and have not already performed the instructions on the [previous page](LAMBDA.md) please do so now.
 
+The instructions on this page create values for the following environment variables in `setEnvVars`: `AWS_ROLE_ARN`.
+
+
+## Resuming Your Work
+
+If you are resuming these instructions in a new shell, load the environment variables from `setEnvVars`:
+
+```script
+$ source setEnvVars
+```
+
 
 ## Create an IAM Role for the Lambda Function
 This instructions on this page are required for both the HTTP and the REST APIs.
@@ -50,10 +61,13 @@ This instructions on this page are required for both the HTTP and the REST APIs.
    ```
 
 2. `.Role.Arn` contains the IAM ARN that is needed in the next step.
-   Save it in an environment variable called `AWS_ROLE_ARN`.
+   Save it in an environment variable called `AWS_ROLE_ARN` in `setEnvVars` and re-source the file.
 
    ```script
-   $ AWS_ROLE_ARN=$( ./extract .Role.Arn )
+   $ ./extract .Role.Arn AWS_ROLE_ARN
+   arn:aws:iam::031372724784:role/lambda-ex
+   
+   $ source setEnvVars
    ```
 
 
