@@ -6,7 +6,7 @@ capability that creates:
 
 1. An HTTP API in front of a Lambda.
 2. A default catch-all route.
-3. A default stage that is configured to automatically deploy changes (to the Lambda?).
+3. A default stage called `$default` that is configured to automatically deploy changes to the API configuration.
 
 If you wish to type along and have not already performed the instructions on the [previous page](REGISTER.md) please do so now.
 
@@ -99,11 +99,28 @@ The value of `AWS_HTTP_INVOCATION_URL` is computed from values of other environm
 
    ```script
    $ aws lambda add-permission \
-     --statement-id lambda perm \
+     --statement-id lambda_perm \
      --action lambda:InvokeFunction \
      --function-name "$AWS_LAMBDA_ARN" \
      --principal apigateway.amazonaws.com \
-     --source-arn "arn:aws:execute-api:$AWS_REGION:$AWS_ACCOUNT_ID:$AWS_APIG_HTTP_ID/*/*/$AWS_APIG_PATH_PART"
+     --source-arn "arn:aws:execute-api:$AWS_REGION:$AWS_ACCOUNT_ID:$AWS_APIG_HTTP_ID/*/\$default"
+   ```
+
+   Output is something like:
+
+   ```json
+   {
+     "Statement": {
+       "Sid": "lambda_perm",
+       "Effect":"Allow",
+       "Principal": { "Service": "apigateway.amazonaws.com" },
+       "Action": "lambda:InvokeFunction",
+       "Resource": "arn:aws:lambda:$AWS_REGION:$AWS_ACCOUNT_ID:function:$AWS_LAMBDA_NAME",
+       "Condition": {
+         "ArnLike": { "AWS:SourceArn": "arn:aws:execute-api:$AWS_REGION:$AWS_ACCOUNT_ID:$AWS_APIG_HTTP_ID/*/$default" }
+       }
+     }
+   }
    ```
 
 3. Now we can make requests to the API gateway's invocation URL like this:
@@ -120,5 +137,11 @@ The value of `AWS_HTTP_INVOCATION_URL` is computed from values of other environm
      $AWS_HTTP_INVOCATION_URL
    ```
 
+    Output is:
+    ```json
+    {"message":"Internal Server Error"}
+    ```
+
+    
 ## Next Step
 Continue on to [Debugging](DEBUGGING.md).
