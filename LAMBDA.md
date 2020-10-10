@@ -1,13 +1,13 @@
 # Create an AWS Lambda Function
 
-The instructions on this page are common to both the REST and the HTTP APIs.
+The instructions on this page are common to both the HTTP and the REST APIs.
 If you wish to type along and have not already performed the instructions on the [previous page](README.md) please do so now.
 
 The commands necessary to accomplish all of the instructions on this page are [summarized](#user-content-summary) at the end of this page.
 
-[The AWS CLI Getting Started documentation](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-awscli.html)
-details the steps required for creating the lambda function via the command line.
-These instructions are based on
+More information on creating the lambda function via the command line is provided in the
+[AWS CLI Getting Started documentation](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-awscli.html)
+and
 [How do I build an AWS Lambda deployment package for Python?](https://aws.amazon.com/premiumsupport/knowledge-center/build-python-lambda-deployment-package/).
 
 The [ATS sam build and package](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-cli-command-reference-sam-build.html)
@@ -395,13 +395,13 @@ AWS_LAMBDA_HANDLER=my_file.ooh_baby
 
 Notice that `updateEnvVar` displays the modified line in `setEnvVars` to demonstrate that it worked.
 
-Now re-source `setEnvVars` so the new value of the `AWS_LAMBDA_NAME` environment variable is used, and tell AWS about the change:
+Now re-source `setEnvVars` so the new value of the `AWS_LAMBDA_NAME` environment variable is used:
 
 ```script
 $ source setEnvVars
 ```
 
-Now tell AWS about the new handler for the Lambda.
+Now tell AWS about the new handler for the Lambda:
 
 ```script
 $ aws lambda update-function-configuration \
