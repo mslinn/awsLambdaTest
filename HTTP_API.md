@@ -70,7 +70,7 @@ The value of `AWS_HTTP_INVOCATION_URL` is computed from values of other environm
    ```
 
    We have created an HTTP API and the resulting JSON has been saved to `.result.json` by the `capture` script.
-   The `extract` script uses the saved JSON to extract the `ApiId` value and save it as the value for
+   Now we will use the `extract` script to extract the `ApiId` value from the JSON file and save the value for
    `AWS_APIG_HTTP_ID` in `setEnvVars`.
 
     ```script
@@ -80,7 +80,7 @@ The value of `AWS_HTTP_INVOCATION_URL` is computed from values of other environm
    `setEnvVars` already computes the invocation URL and stores it an environment variable called `AWS_HTTP_INVOCATION_URL`, like this:
 
    ```script
-   AWS_HTTP_INVOCATION_URL=https://$AWS_APIG_HTTP_ID.execute-api.$AWS_REGION.amazonaws.com/$AWS_APIG_PATH_PART/
+   AWS_HTTP_INVOCATION_URL=$AWS_APIG_HTTP_ID.execute-api.$AWS_REGION.amazonaws.com/$AWS_APIG_PATH_PART/
    ```
 
    Now re-load from `setEnvVars`:
@@ -142,6 +142,6 @@ The value of `AWS_HTTP_INVOCATION_URL` is computed from values of other environm
     {"message":"Internal Server Error"}
     ```
 
-    
+
 ## Next Step
 Continue on to [Debugging](DEBUGGING.md).
