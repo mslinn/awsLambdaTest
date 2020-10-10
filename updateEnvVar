@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Usage: updateEnvVar [-f] ENV_VAR_NAME value
+# The -f option allows a new entry to be made in setEnvVars if one does not already exist for the specified ENV_VAR_NAME.
+# Example: updateEnvVar AWS_LAMBDA_HANDLER my_file.ooh_baby
+
+unset ALLOW_CREATION
+if [ "$1" == -f ]; then
+  ALLOW_CREATION=true
+fi
+
+if [ -z "$1" ]; then
+  >&2 echo "Error: no environment variable name was provided."
+  exit 1
+fi
+
+if [ -z "$2" ]; then
+  >&2 echo "Error: no value was provided for environment variable '$1'."
+  exit 1
+fi
+
+if [ ! -f "setEnvVars" ]; then
+  >&2 echo "Error: setEnvVars file is not present in directory $PWD."
+  exit 3
+fi
+
+if [ -z $( grep "$1=" setEnvVars ) && -z "$ALLOW_CREATION" ]; then
+  >&2 echo "Error: setEnvVars does not contain a definition for $1 and the -f option was not provided."
+  exit 4
+fi
+
+# Update the environment variable value in setEnvVars if the name of the environment variable is provided
+sed -i "/$1/c\$1=$2" setEnvVars
+
+# Show the modified value
+grep "$1=" setEnvVars
+echo "Type: source setEnvVars"

@@ -19,7 +19,7 @@ More information about creating a Lambda deployment package for Python is availa
 
 ## Resuming Your Work
 
-The instructions on this page use the following environment variables from `setEnvVars.sh`, which I provided as:
+The instructions on this page use the following environment variables from `setEnvVars`, which I provided as:
 
 ```script
 AWS_LAMBDA_DIR=lambda
@@ -30,10 +30,10 @@ AWS_LAMBDA_HANDLER=echo.lambda_handler
 AWS_LAMBDA_ARN="arn:aws:lambda:$AWS_REGION:$AWS_ACCOUNT_ID:function:$AWS_LAMBDA_NAME"
 ```
 
-If you are resuming these instructions in a new shell, load the environment variables from `setEnvVars.sh`:
+If you are resuming these instructions in a new shell, load the environment variables from `setEnvVars`:
 
 ```script
-$ source setEnvVars.sh
+$ source setEnvVars
 ```
 
 
@@ -327,7 +327,7 @@ zope.interface==4.7.1
 ## Summary
 
 ```shell
-source setEnvVars.sh
+source setEnvVars
 cd "$AWS_LAMBDA_DIR"
 # sudo chown -R $USER: .
 pip3 install -r requirements.txt -t .
@@ -384,25 +384,26 @@ Output is:
 If the Lambda function modification included changing the name of the main Python program file, and/or renaming the hander function,
 tell AWS about the modified entry point name with `update-function-configuration`.
 
-You should first change the value of `AWS_LAMBDA_HANDLER` in [`makeSetEnvVars.sh`](makeSetEnvVars.sh) to suit.
+You should first change the value of `AWS_LAMBDA_HANDLER` in [`setEnvVars`](setEnvVars) to the new name.
+I have provided a script called `updateEnvVar` that can modify values in `setEnvVars`.
 For example, if the new handler is the method `ooh_baby` in `my_file.py`, you could change the value from the command line like this:
 
 ```shell
-$ sed -i '/AWS_LAMBDA_HANDLER/c\AWS_LAMBDA_HANDLER=my_file.ooh_baby' makeSetEnvVars.sh
-```
-
-Verify that it worked:
-
-```shell
-$ grep AWS_LAMBDA_HANDLER makeSetEnvVars.sh
+$ ./updateEnvVar AWS_LAMBDA_HANDLER my_file.ooh_baby
 AWS_LAMBDA_HANDLER=my_file.ooh_baby
 ```
 
-Now re-source `setEnvVars.sh` so the new value of the `AWS_LAMBDA_NAME` environment variable is used, and tell AWS about the change:
+Notice that `updateEnvVar` displays the modified line in `setEnvVars` to demonstrate that it worked.
+
+Now re-source `setEnvVars` so the new value of the `AWS_LAMBDA_NAME` environment variable is used, and tell AWS about the change:
 
 ```script
-$ source setEnvVars.sh
+$ source setEnvVars
+```
 
+Now tell AWS about the new handler for the Lambda.
+
+```script
 $ aws lambda update-function-configuration \
   --function-name $AWS_LAMBDA_NAME \
   --handler $AWS_LAMBDA_HANDLER

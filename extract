@@ -1,12 +1,24 @@
 #!/bin/bash
 
-# Usage: extract jqSpecifier
+# Usage: extract jqSpecifier [ENV_VAR_NAME]
 # Example: extract .UserId
+# Example: extract .UserId AWS_APIG_NAME
 
 if [ -z "$1" ]; then
   >&2 echo "Error: no jq specification provided."
+  exit 1
 fi
 
-RESULT=$( cat .result | jq -r $@ )
+if [ ! -f ".result" ]; then
+  >&2 echo "Error: .result file not found in $PWD."
+  exit 2
+fi
+
+RESULT=$( cat .result | jq -r $1 )
+
+# Update the environment variable value in setEnvVars if the name of the environment variable is provided
+if [ "$2" ]; then
+  sed -i "/$2/c\$2=$RESULT" setEnvVars
+fi
+
 echo $RESULT
->&2 echo $RESULT

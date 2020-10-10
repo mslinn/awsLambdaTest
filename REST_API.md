@@ -3,16 +3,16 @@
 If you wish to type along and have not already performed the instructions on the
 [previous page](REGISTER.md) please do so now.
 
-If you are resuming these instructions in a new shell, load the environment variables from `setEnvVars.sh`:
+If you are resuming these instructions in a new shell, load the environment variables from `setEnvVars`:
 
 ```script
-$ source setEnvVars.sh
+$ source setEnvVars
 ```
 
 
 ## Saving Your Work
 
-We will use these environment variables from `setEnvVars.sh`:
+We will use these environment variables from `setEnvVars`:
 
 ```script
 AWS_REST_NAME=LambdaREST  # Name of the REST API can be anything
@@ -20,7 +20,7 @@ AWS_APIG_PATH_PART=demo   # Part of the URL path to invoke the Lambda function
 AWS_APIG_STAGE=test       # Usually called dev, prod or test
 ```
 
-Near the end of this page you will be instructed to create and save additional environment variables to `setEnvVars.sh` so you can return to this project at another time.
+Near the end of this page you will be instructed to create and save additional environment variables to `setEnvVars` so you can return to this project at another time.
 
 
 ## Create an API Gateway REST API
@@ -225,9 +225,9 @@ Near the end of this page you will be instructed to create and save additional e
    More information about creating an API and integrating it with the Lambda backend is
    [here](https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-custom-integrations.html).
 
-9. Save the new environment variables into `setEnvVars.sh` in case you want to stop now and return to this in the future:
+9. Save the new environment variables into `setEnvVars` in case you want to stop now and return to this in the future:
    ```script
-   $ cat &lt;&lt;EOF >> setEnvVars.sh
+   $ cat &lt;&lt;EOF >> setEnvVars
 
 
    # Added by following the instructions in REST_API.md:

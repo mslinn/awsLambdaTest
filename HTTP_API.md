@@ -3,21 +3,22 @@
 The HTTP API features a
 [quick create](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop.html#http-api-examples.cli.quick-create)
 capability that creates:
+
 1. An HTTP API in front of a Lambda.
 2. A default catch-all route.
 3. A default stage that is configured to automatically deploy changes (to the Lambda?).
 
 If you wish to type along and have not already performed the instructions on the [previous page](REGISTER.md) please do so now.
 
-If you are resuming these instructions in a new shell, load the environment variables from `setEnvVars.sh`:
+If you are resuming these instructions in a new shell, load the environment variables from `setEnvVars`:
 
 ```script
-$ source setEnvVars.sh
+$ source setEnvVars
 ```
 
 ## Saving Your Work
 
-We will use these environment variables from `setEnvVars.sh`:
+We will use these environment variables from `setEnvVars`:
 
 ```script
 AWS_APIG_PATH_PART=demo   # Part of the URL path to invoke the Lambda function
@@ -25,7 +26,9 @@ AWS_APIG_TARGET_ARN="arn:aws:lambda:$AWS_REGION:$AWS_ACCOUNT_ID:function:$AWS_LA
 AWS_APIG_NAME=LambdaHTTP
 ```
 
-Near the end of this page you will be instructed to create and save additional environment variables to `setEnvVars.sh` so you can return to this project at another time.
+Near the end of this page you will be instructed to create and save values for the  `AWS_APIG_HTTP_ID` environment variable so you can return to this project at another time.
+
+The value of `AWS_HTTP_INVOCATION_URL` is computed from values of other environment variables by `setEnvVars`.
 
 
 ## Create an API Gateway HTTP API
@@ -67,28 +70,23 @@ Near the end of this page you will be instructed to create and save additional e
    ```
 
    We have created an HTTP API and the resulting JSON has been saved to `.result` by the `capture` script.
+   The `extract` script uses the saved JSON to extract the `ApiId` value and save it as the value for
+   `AWS_APIG_HTTP_ID` in `makeSetEnvVars` and `setEnvVars`.
 
-   This command spans several lines and does the following:
+    ```script
+    ./extract .ApiId AWS_APIG_HTTP_ID
+    ```
 
-   1. Extracts the `ApiId` value from the saved JSON in the `.result` file.
-   2. Stores it into an environment variable called `AWS_APIG_HTTP_ID`.
-   3. Defines the invocation URL in an environment variable called `AWS_HTTP_INVOCATION_URL`.
-
-   These environment variables are saved to `setEnvVars.sh`:
+   `makeSetEnvVars` and `setEnvVars` already compute the invocation URL and store it an environment variable called `AWS_HTTP_INVOCATION_URL`, like this:
 
    ```script
-   cat <<EOF >> setEnvVars.sh
-
-
-   # Added by following the instructions in HTTP_API.md:
-   AWS_APIG_HTTP_ID=$( ./extract .ApiId )
    AWS_HTTP_INVOCATION_URL=https://$AWS_APIG_HTTP_ID.execute-api.$AWS_REGION.amazonaws.com/$AWS_APIG_PATH_PART/
-   EOF
    ```
-   Now re-load from `setEnvVars.sh`:
+
+   Now re-load from `setEnvVars`:
 
    ```script
-   source setEnvVars.sh
+   source setEnvVars
    ```
 
 2. Permissions have not yet been provided for the Lambda to be executed by the API Gateway, so
