@@ -1,28 +1,46 @@
 #!/bin/bash
 
-# Usage: extract jqSpecifier [ENV_VAR_NAME]
-# Example: extract .UserId
-# Example: extract .UserId AWS_APIG_NAME
+function help {
+  if [ "$1" ]; then
+    >&2 echo "Error: $1"
+    >&2 echo ""
+  fi
+  >&2 echo "Usage: extract jqSpecifier [ENV_VAR_NAME]
+
+Example: extract .UserId
+
+Example: extract .UserId AWS_APIG_NAME
+"
+  exit 1
+}
+
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
+if [ "$1" == -h ]; then help; fi
+
 if [ -z "$1" ]; then
-  >&2 echo "Error: no jq specification provided."
+  help "no jq specification was provided."
   exit 1
 fi
 
 if [ ! -f "$DIR/.result" ]; then
-  >&2 echo "Error: .result file not found in $PWD."
+  >&2 echo "Error: '$DIR/.result' file not found."
   exit 2
 fi
 
 if [ ! -f "$DIR/setEnvVars" ]; then
-  >&2 echo "Error: setEnvVars file not found in $PWD."
+  >&2 echo "Error: '$DIR/setEnvVars' file not found."
   exit 3
 fi
 
 
 RESULT=$( cat "$DIR/.result" | jq -r $1 )
+
+if [ "$RESULT" == "null" ]; then
+  >&2 echo "Error: No JSON value was found for jq specifier '$1'."
+  exit 4
+fi
 
 # Update the environment variable value in setEnvVars if the name of the environment variable is provided
 if [ "$2" ]; then

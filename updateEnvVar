@@ -1,10 +1,22 @@
 #!/bin/bash
 
-# Usage: updateEnvVar [-f] ENV_VAR_NAME value
-# The -f option allows a new entry to be made in setEnvVars if one does not already exist for the specified ENV_VAR_NAME.
-# Example: updateEnvVar AWS_LAMBDA_HANDLER my_file.ooh_baby
+function help {
+  if [ "$1" ]; then
+    >&2 echo "Error: $1"
+    >&2 echo ""
+  fi
+  >&2 echo "Usage: updateEnvVar [-f] ENV_VAR_NAME value
+
+The -f option allows a new entry to be made in setEnvVars if one does not already exist for the specified ENV_VAR_NAME.
+
+Example: updateEnvVar AWS_LAMBDA_HANDLER my_file.ooh_baby
+"
+  exit 1
+}
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+if [ "$1" == -h ]; then help; fi
 
 unset ALLOW_CREATION
 if [ "$1" == -f ]; then
@@ -12,15 +24,9 @@ if [ "$1" == -f ]; then
   shift
 fi
 
-if [ -z "$1" ]; then
-  >&2 echo "Error: no environment variable name was provided."
-  exit 1
-fi
+if [ -z "$1" ]; then help "no environment variable name was provided."; fi
 
-if [ -z "$2" ]; then
-  >&2 echo "Error: no value was provided for environment variable '$1'."
-  exit 1
-fi
+if [ -z "$2" ]; then help "no value was provided for environment variable '$1'."; fi
 
 if [ ! -f "$DIR/setEnvVars" ]; then
   >&2 echo "Error: setEnvVars file is not present in directory '$DIR'."
@@ -29,7 +35,7 @@ fi
 
 if [[ -z $( grep "$1=" "$DIR/setEnvVars" ) ]]; then
    if [[ -z "$ALLOW_CREATION" ]]; then
-      >&2 echo "Error: '$DIR/setEnvVars' does not contain a definition for $1 and the -f option was not provided."
+      >&2 echo "Error: '$DIR/setEnvVars' does not contain a definition for $1 and the -f option was not specified."
       exit 4
     fi
 
