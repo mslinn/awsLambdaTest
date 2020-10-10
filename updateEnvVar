@@ -7,6 +7,7 @@
 unset ALLOW_CREATION
 if [ "$1" == -f ]; then
   ALLOW_CREATION=true
+  shift
 fi
 
 if [ -z "$1" ]; then
@@ -24,14 +25,22 @@ if [ ! -f "setEnvVars" ]; then
   exit 3
 fi
 
-if [ -z $( grep "$1=" setEnvVars ) && -z "$ALLOW_CREATION" ]; then
-  >&2 echo "Error: setEnvVars does not contain a definition for $1 and the -f option was not provided."
-  exit 4
+if [[ -z $( grep "$1=" setEnvVars ) ]]; then
+   if [[ -z "$ALLOW_CREATION" ]]; then
+      >&2 echo "Error: setEnvVars does not contain a definition for $1 and the -f option was not provided."
+      exit 4
+    fi
+
+    # Add a new environment variable name=value line to setEnvVars
+    echo "" >> setEnvVars
+    echo "# Added manually" >> setEnvVars
+    echo "$1=\"$2\"" >> setEnvVars
+    echo "The new entry in setEnvVars is:"
+else
+  # Update the environment variable value in setEnvVars
+  sed -i "/$1/c$1=$2" setEnvVars
+  echo "The modified entry in setEnvVars is:"
 fi
 
-# Update the environment variable value in setEnvVars if the name of the environment variable is provided
-sed -i "/$1/c\$1=$2" setEnvVars
-
-# Show the modified value
 grep "$1=" setEnvVars
-echo "Type: source setEnvVars"
+echo "The changes to setEnvVars will not take effect until you type: source setEnvVars"
