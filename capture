@@ -1,13 +1,23 @@
 #!/bin/bash
 
-# Usage: capture command to execute with arguments
-# Example: ./capture aws sts get-caller-identity
+function help {
+  if [ "$1" ]; then
+    >&2 echo "Error: $1"
+    >&2 echo ""
+  fi
+  >&2 echo "Usage: capture command to execute with arguments
+
+Creates hidden file '$DIR/.result.json'.
+
+Example: ./capture aws sts get-caller-identity
+"
+  exit 1
+}
+
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-if [ -z "$1" ]; then
-  >&2 echo "Error: no shell command provided."
-fi
+if [ -z "$1" ]; then help "no shell command provided."; fi
 
-echo $( $@ ) > "$DIR/.result"
-cat "$DIR/.result"
+echo $( $@ ) > "$DIR/.result.json"
+cat "$DIR/.result.json"

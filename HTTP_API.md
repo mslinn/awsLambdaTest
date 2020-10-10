@@ -69,7 +69,7 @@ The value of `AWS_HTTP_INVOCATION_URL` is computed from values of other environm
    }
    ```
 
-   We have created an HTTP API and the resulting JSON has been saved to `.result` by the `capture` script.
+   We have created an HTTP API and the resulting JSON has been saved to `.result.json` by the `capture` script.
    The `extract` script uses the saved JSON to extract the `ApiId` value and save it as the value for
    `AWS_APIG_HTTP_ID` in `makeSetEnvVars` and `setEnvVars`.
 

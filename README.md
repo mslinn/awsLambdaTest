@@ -49,8 +49,8 @@ When a value changes the `setEnvVars` will need to be re-sourced.
 
 This tutorial provides 3 bash scripts: `capture`, `extract` and `updateEnvVar`.
 
- - The `capture` script runs commands and saves `stdout` to a hidden file called `.result` in this directory.
- - The `extract` script assumes that `.result` contains JSON and extracts a value from it using `jq`.
+ - The `capture` script runs commands and saves `stdout` to a hidden file called `.result.json` in this directory.
+ - The `extract` script assumes that `.result.json` contains JSON and extracts a value from it using `jq`.
    The value is written to `STDOUT`.
    if an optional second argument is provided it is assumed to be the name of an environment variable
    and its value is updated in `setEnvVars`.

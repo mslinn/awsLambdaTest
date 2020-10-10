@@ -24,9 +24,14 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
-if [ ! -f "$DIR/.result" ]; then
-  >&2 echo "Error: '$DIR/.result' file not found."
+if [ ! -f "$DIR/.result.json" ]; then
+  >&2 echo "Error: '$DIR/.result.json' file not found."
   exit 2
+fi
+
+if [[ $( cat "$DIR/.result.json" | jq -r type ) != "object" ]]; then
+  >&2 echo "Error: '$DIR/.result.json' does not contain valid JSON."
+  exit 3
 fi
 
 if [ ! -f "$DIR/setEnvVars" ]; then
@@ -35,10 +40,10 @@ if [ ! -f "$DIR/setEnvVars" ]; then
 fi
 
 
-RESULT=$( cat "$DIR/.result" | jq -r $1 )
+RESULT=$( cat "$DIR/.result.json" | jq -r $1 )
 
 if [ "$RESULT" == "null" ]; then
-  >&2 echo "Error: No JSON value was found in '$DIR/.result' for jq specifier '$1'."
+  >&2 echo "Error: No JSON value was found in '$DIR/.result.json' for jq specifier '$1'."
   exit 4
 fi
 
