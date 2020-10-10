@@ -38,7 +38,7 @@ fi
 RESULT=$( cat "$DIR/.result" | jq -r $1 )
 
 if [ "$RESULT" == "null" ]; then
-  >&2 echo "Error: No JSON value was found for jq specifier '$1'."
+  >&2 echo "Error: No JSON value was found in '$DIR/.result' for jq specifier '$1'."
   exit 4
 fi
 
