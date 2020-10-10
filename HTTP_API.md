@@ -26,7 +26,7 @@ AWS_APIG_TARGET_ARN="arn:aws:lambda:$AWS_REGION:$AWS_ACCOUNT_ID:function:$AWS_LA
 AWS_APIG_NAME=LambdaHTTP
 ```
 
-Near the end of this page you will be instructed to create and save values for the  `AWS_APIG_HTTP_ID` environment variable so you can return to this project at another time.
+Near the end of this page you will be instructed to save a value for the  `AWS_APIG_HTTP_ID` environment variable so you can return to this project at another time.
 
 The value of `AWS_HTTP_INVOCATION_URL` is computed from values of other environment variables by `setEnvVars`.
 
@@ -34,11 +34,11 @@ The value of `AWS_HTTP_INVOCATION_URL` is computed from values of other environm
 ## Create an API Gateway HTTP API
 
 1. Call the `create-api` command to create an API with the desired name.
-   This command maps the Lambda to the route "/$AWS_APIG_PATH_PART".
-   The `POST` in the route key will allow `POST` method calls on the specified route.
+   This command maps the Lambda to the route `/$AWS_APIG_PATH_PART`.
+   The `POST` in the route key will only allow `POST` method calls on the specified route.
 
    ```script
-   $ aws apigatewayv2 create-api \
+   $ ./capture aws apigatewayv2 create-api \
      --name $AWS_APIG_NAME \
      --protocol-type HTTP \
      --route-key "POST /$AWS_APIG_PATH_PART" \
@@ -71,13 +71,13 @@ The value of `AWS_HTTP_INVOCATION_URL` is computed from values of other environm
 
    We have created an HTTP API and the resulting JSON has been saved to `.result.json` by the `capture` script.
    The `extract` script uses the saved JSON to extract the `ApiId` value and save it as the value for
-   `AWS_APIG_HTTP_ID` in `makeSetEnvVars` and `setEnvVars`.
+   `AWS_APIG_HTTP_ID` in `setEnvVars`.
 
     ```script
     ./extract .ApiId AWS_APIG_HTTP_ID
     ```
 
-   `makeSetEnvVars` and `setEnvVars` already compute the invocation URL and store it an environment variable called `AWS_HTTP_INVOCATION_URL`, like this:
+   `setEnvVars` already computes the invocation URL and stores it an environment variable called `AWS_HTTP_INVOCATION_URL`, like this:
 
    ```script
    AWS_HTTP_INVOCATION_URL=https://$AWS_APIG_HTTP_ID.execute-api.$AWS_REGION.amazonaws.com/$AWS_APIG_PATH_PART/
@@ -90,7 +90,7 @@ The value of `AWS_HTTP_INVOCATION_URL` is computed from values of other environm
    ```
 
 2. Permissions have not yet been provided for the Lambda to be executed by the API Gateway, so
-   attempting to invoke would result in API Gateway recieving an `AccessDenied` error,
+   attempting to invoke would result in API Gateway receiving an `AccessDenied` error,
    which results in the client receiving `{"message":"Internal Server Error"}`.
 
    To add permissions to the Lambda to allow the API to invoke it, type the following.
