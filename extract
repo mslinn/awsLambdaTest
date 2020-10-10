@@ -4,21 +4,29 @@
 # Example: extract .UserId
 # Example: extract .UserId AWS_APIG_NAME
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
 if [ -z "$1" ]; then
   >&2 echo "Error: no jq specification provided."
   exit 1
 fi
 
-if [ ! -f ".result" ]; then
+if [ ! -f "$DIR/.result" ]; then
   >&2 echo "Error: .result file not found in $PWD."
   exit 2
 fi
 
-RESULT=$( cat .result | jq -r $1 )
+if [ ! -f "$DIR/setEnvVars" ]; then
+  >&2 echo "Error: setEnvVars file not found in $PWD."
+  exit 3
+fi
+
+
+RESULT=$( cat "$DIR/.result" | jq -r $1 )
 
 # Update the environment variable value in setEnvVars if the name of the environment variable is provided
 if [ "$2" ]; then
-  sed -i "/$2/c\$2=$RESULT" setEnvVars
+  "$DIR/updateEnvVar" "$2" "$RESULT"
 fi
 
 echo $RESULT

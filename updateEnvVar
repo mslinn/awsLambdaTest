@@ -4,6 +4,8 @@
 # The -f option allows a new entry to be made in setEnvVars if one does not already exist for the specified ENV_VAR_NAME.
 # Example: updateEnvVar AWS_LAMBDA_HANDLER my_file.ooh_baby
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
 unset ALLOW_CREATION
 if [ "$1" == -f ]; then
   ALLOW_CREATION=true
@@ -20,27 +22,27 @@ if [ -z "$2" ]; then
   exit 1
 fi
 
-if [ ! -f "setEnvVars" ]; then
-  >&2 echo "Error: setEnvVars file is not present in directory $PWD."
+if [ ! -f "$DIR/setEnvVars" ]; then
+  >&2 echo "Error: setEnvVars file is not present in directory '$DIR'."
   exit 3
 fi
 
-if [[ -z $( grep "$1=" setEnvVars ) ]]; then
+if [[ -z $( grep "$1=" "$DIR/setEnvVars" ) ]]; then
    if [[ -z "$ALLOW_CREATION" ]]; then
-      >&2 echo "Error: setEnvVars does not contain a definition for $1 and the -f option was not provided."
+      >&2 echo "Error: '$DIR/setEnvVars' does not contain a definition for $1 and the -f option was not provided."
       exit 4
     fi
 
     # Add a new environment variable name=value line to setEnvVars
-    echo "" >> setEnvVars
-    echo "# Added manually" >> setEnvVars
-    echo "$1=\"$2\"" >> setEnvVars
-    echo "The new entry in setEnvVars is:"
+    echo "" >> "$DIR/setEnvVars"
+    echo "# Added manually" >> "$DIR/setEnvVars"
+    echo "$1=\"$2\"" >> "$DIR/setEnvVars"
+    echo "The new entry in '$DIR/setEnvVars' is:"
 else
   # Update the environment variable value in setEnvVars
-  sed -i "/$1/c$1=$2" setEnvVars
-  echo "The modified entry in setEnvVars is:"
+  sed -i "/$1/c$1=$2" "$DIR/setEnvVars"
+  echo "The modified entry in '$DIR/setEnvVars' is:"
 fi
 
-grep "$1=" setEnvVars
-echo "The changes to setEnvVars will not take effect until you type: source setEnvVars"
+grep "$1=" "$DIR/setEnvVars"
+echo "The changes to setEnvVars will not take effect until you type: source '$DIR/setEnvVars'"
