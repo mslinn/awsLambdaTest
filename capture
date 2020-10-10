@@ -19,5 +19,6 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 if [ -z "$1" ]; then help "no shell command provided."; fi
 
+export AWS_DEFAULT_OUTPUT=json
 echo $( $@ ) > "$DIR/.result.json"
 cat "$DIR/.result.json"
