@@ -144,4 +144,4 @@ The value of `AWS_HTTP_INVOCATION_URL` is computed from values of other environm
 
 
 ## Next Step
-Continue on to [Debugging](DEBUGGING.md).
+Continue on to [Logging](LOGGING.md).

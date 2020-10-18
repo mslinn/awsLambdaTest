@@ -301,4 +301,4 @@ $ curl --no-progress-meter \
 
 
 ## Next Step
-Continue on to [Debugging](DEBUGGING.md).
+Continue on to [Logging](LOGGING.md).
