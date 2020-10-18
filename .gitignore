@@ -15,6 +15,5 @@ __MACOSX
 lambda/*
 node_modules/
 run.py
-setEnvVars
 test.html
 function.zip
