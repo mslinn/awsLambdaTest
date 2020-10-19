@@ -15,7 +15,17 @@ $ source setEnvVars
 
 
 ## Create an IAM Role for the Lambda Function
-This instructions on this page are required for both the HTTP and the REST APIs.
+For API Gateway / Lambda integration 2-way permissions are required:
+
+  1) The API Gateway should have permission to invoke the lambda function (automatically handled by the
+  [service-linked role](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html) 
+  `AWSServiceRoleForAPIGateway`)
+
+  2) The Lambda function should allow API Gateway to invoke the Lambda function via a resource based policy.
+
+  3) Lambda requires the Lambda Execution Role to access other AWS services.
+
+The instructions on this page are required for both the HTTP and the REST APIs.
 
 1) Create an IAM role which will act as a Lambda execution role.
    We need to allow the Lambda service to assume this role in the trust policy.
@@ -66,7 +76,7 @@ This instructions on this page are required for both the HTTP and the REST APIs.
    ```script
    $ ./extract .Role.Arn AWS_ROLE_ARN
    arn:aws:iam::031372724784:role/lambda-ex
-   
+
    $ source setEnvVars
    ```
 

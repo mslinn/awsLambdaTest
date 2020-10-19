@@ -46,6 +46,16 @@ $ aws apigatewayv2 update-stage --api-id $AWS_APIG_REST_ID \
 
 ### Tailing CloudWatch Logs From a Terminal
 Use [cw](https://www.lucagrulla.com/cw/).
+
+#### WSL & WSL2 Installation
+To install on Windows Subsystem for Windows 1 & 2, which do not support `snap`:
+```script
+cd ~/Downloads
+wget https://github.com/lucagrulla/cw/releases/download/v3.3.0/cw_amd64.deb && sudo dpkg -i cw_amd64.deb
+cd -
+```
+
+### Installation on Other Debian-Based Linux Distros
 To install on Debian/Ubuntu:
 
 ```script
@@ -54,6 +64,7 @@ sudo snap connect cw-sh:dot-aws-config-credentials
 sudo snap alias cw-sh.cw cw
 ```
 
+### Usage
 Tail all the streams in the CloudWatch Log group `log-group1` which was defined at the top of this section, showing times in the local time zone.
 ```script
 $ cw tail log-group1 --local
@@ -75,6 +86,20 @@ Tail just the streams that are named with the prefix `log-stream-prefix` in the 
 $ cw tail log-group1:log-stream-prefix --local
 ```
 
+#### Fuzzy Completion with `fzf`
+
+[`fzf`](https://github.com/junegunn/fzf) works well with `cw` for tab completion.
+Installation is documented [here](https://github.com/junegunn/fzf#using-linux-package-managers).
+For example:
+
+```script
+$ cw tail -f "$(cw ls groups | fzf)"
+```
+
+Use <kbd>tab</kbd> to select multiple log groups:
+```script
+$ cw tail -f $(cw ls groups | fzf -m | tr '\n' ' ')
+```
 
 ### Deleting CloudWatch Logs
 ```script
