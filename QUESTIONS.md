@@ -20,11 +20,11 @@ I have suggestions for product development and documentation, and I have questio
 
    f) Other than web console's `Invoke URL`, the following is missing from the information returned by AWS CLI: `Attached deployment`, `Auto deploy`, `Default endpoint` (boolean), `Description`.
 
-   g) Other than web console's "Invoke URL", the following is missing from the Python binding: `Attached deployment`, `Auto deploy`, `Default endpoint` (boolean). `Description` is present, unlike AWS CLI's documented response.
+   g) Other than web console's `Invoke URL`, the following is missing from the Python binding: `Attached deployment`, `Auto deploy`, `Default endpoint` (boolean). `Description` is present, unlike AWS CLI's documented response.
 
 5) Exactly what does `Auto deploy` mean for managed APIs?
 
-   a) What is deployed, changes to an API definition such as permissions, paths, integrations, or does it also pertain to Lambda functions and other resources behind the API? The deployment description is not helpful: "Automatic deployment triggered by changes to the Api configuration". Since this appears only for Stage details in the web console, and that page also shows a `Deployment ID`, it seems likely that `Automatic deployment` pertains to the deployment of the specific stage shown. None of this information is apparent to people reading the AWS CLI docs or the docs for the Python bindings.
+   a) What is deployed, changes to an API definition such as permissions, paths, integrations, or does it also pertain to Lambda functions and other resources behind the API? The deployment description is not helpful: `Automatic deployment triggered by changes to the Api configuration`. Since this appears only for Stage details in the web console, and that page also shows a `Deployment ID`, it seems likely that `Automatic deployment` pertains to the deployment of the specific stage shown. None of this information is apparent to people reading the AWS CLI docs or the docs for the Python bindings.
 
    b) Is it true that `autodeploy` is meaningless for `quick create` HTTP APIs, because no changes are possible?
 
@@ -59,7 +59,7 @@ I have suggestions for product development and documentation, and I have questio
 
    b) The same documentation then points to the APIG documentation for the [low-level REST interface underlying the AWS CLI subcommand](https://docs.aws.amazon.com/goto/WebAPI/apigatewayv2-2018-11-29/GetIntegration) which is similarly useless: `Gets an Integration.`
 
-   c) Instead of pointing to the documentation for the underlying implementation, the subcommand documentation should point to a section in the Programming Guide, wherever that might be (I could not find it.)
+   c) Instead of pointing to the documentation for the underlying implementation, the subcommand documentation should point to the relevant section in the Programming Guide, wherever that might be (I could not find it.)
 
 10) None of the methods documented for the Python bindings have a proper explanation of what the methods do.
 
