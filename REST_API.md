@@ -195,7 +195,11 @@ Near the end of this page you will be instructed to create and save additional e
    }
    ```
 
-8. Call `create-deployment` to deploy the API to the `$AWS_APIG_STAGE` stage:
+8. A deployment is a snapshot of your API’s configuration that can be associated with a Stage.
+   A deployment is a snapshot of your API&lsqou;s configuration that can be associated with a Stage.
+   Each Stage has an invoke URL (a.k.a. endpoint), whose behavior is determined by the Stage settings and the deployment attached to the Stage.
+   Auto-deploy enabled stages cannot be deployed manually.
+   Call `create-deployment` to deploy the API to the `$AWS_APIG_STAGE` stage:
 
    ```script
    $ aws apigateway create-deployment \

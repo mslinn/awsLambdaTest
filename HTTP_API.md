@@ -7,6 +7,9 @@ capability that creates:
 1. An HTTP API in front of a Lambda.
 2. A default catch-all route.
 3. A default stage called `$default` that is configured to automatically deploy changes to the API configuration.
+   A deployment is a snapshot of your API&lsqou;s configuration that can be associated with a Stage.
+   Each Stage has an invoke URL (a.k.a. endpoint), whose behavior is determined by the Stage settings and the deployment attached to the Stage.
+   Auto-deploy enabled stages cannot be deployed manually.
 
 If you wish to type along and have not already performed the instructions on the [previous page](REGISTER.md) please do so now.
 
