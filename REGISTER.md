@@ -25,6 +25,10 @@ For API Gateway / Lambda integration 2-way permissions are required:
 
 3) The Lambda function requires a Lambda Execution Role to access other AWS services, described below.
 
+4) By default, Lambda functions do not have permission to write to Amazon CloudWatch Logs.
+   To add logging permission to a Lambda function, add the `AWSLambdaBasicExecutionRole`
+   managed policy to the Lambda's execution role.
+
 The instructions on this page are required for both the HTTP and the REST APIs.
 
 1) Create an IAM role which will act as a Lambda execution role.
