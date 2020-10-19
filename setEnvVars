@@ -25,7 +25,7 @@ AWS_LAMBDA_ZIP=function.zip
 AWS_LAMBDA_RUNTIME=python3.8
 
 # Lambda entry point (AWS documentation calls this a handler).
-# The first portion of the value is the name of the Python source code in the zip filecontaining the handler,
+# The first portion of the value is the name of the Python source code in the zip file containing the handler,
 # and the second portion of the value is the name of the handler function in that file.
 # For example, if the Python source code file is called echo.py and the handler is called handler, the value would be:
 AWS_LAMBDA_HANDLER=echo.lambda_handler
