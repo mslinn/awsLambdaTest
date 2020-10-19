@@ -17,14 +17,24 @@ See the [API Gateway Developer Guide](https://docs.aws.amazon.com/apigateway/lat
 for a particular API Gateway stage.
 
 ```script
-$ aws logs create-log-group --log-group-name log-group1
+$ aws logs create-log-group --log-group-name log_group1
 ```
 
-For HTTP APIs:
+CloudWatch logs build up forever unless they are automatically deleted by specifying a retention policy.
+```script
+$ aws logs put-retention-policy \
+  --log-group-name log_group1 \
+  --retention-in-days 5
+```
+
+Update the stage HTTP APIs so logs are enabled:
 ```script
 $ aws apigatewayv2 update-stage --api-id $AWS_APIG_HTTP_ID \
     --stage-name '$default' \
-    --access-log-settings '{"DestinationArn": "arn:aws:logs:region:account-id:log-group:log-group1", "Format": "$context.identity.sourceIp - - [$context.requestTime] \"$context.httpMethod $context.routeKey $context.protocol\" $context.status $context.responseLength $context.requestId"}'
+    --access-log-settings "{
+        \"DestinationArn\": \"arn:aws:logs:$AWS_REGION:$AWS_ACCOUNT_ID:log-group:$AWS_APIG_HTTP_LOG_GROUP\",
+        \"Format\": "$context.identity.sourceIp - - [$context.requestTime] \"\$context.httpMethod $context.routeKey \$context.protocol\" \$context.status \$context.responseLength \$context.requestId"
+      }"
 ```
 
 For REST APIs:
