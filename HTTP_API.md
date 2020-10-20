@@ -11,7 +11,7 @@ capability that creates:
    Each Stage has an invoke URL (a.k.a. endpoint), whose behavior is determined by the Stage settings and the deployment attached to the Stage.
    Auto-deploy enabled stages cannot be deployed manually.
 
-If you wish to type along and have not already performed the instructions on the [previous page](REGISTER.md) please do so now.
+If you wish to type along and have not already performed the instructions on the [previous page](LOGGING.md) please do so now.
 
 If you are resuming these instructions in a new shell, load the environment variables from `setEnvVars`:
 
@@ -147,4 +147,4 @@ The value of `AWS_HTTP_INVOCATION_URL` is computed from values of other environm
 
 
 ## Next Step
-Continue on to [Logging](LOGGING.md).
+Continue on to [Logging Continued](LOGGING2.md).

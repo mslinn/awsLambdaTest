@@ -129,4 +129,4 @@ This step created a Lambda function with the ARN specified by `$AWS_LAMBDA_ARN`.
 
 ## Next Step
 
-Separate instructions are given for creating the simpler [HTTP API](HTTP_API.md) and the more flexible [REST API](REST_API.md).
+Configure [CloudWatch Logging](LOGGING.md) because nothing ever needs to be debugged, right?

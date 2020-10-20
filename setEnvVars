@@ -24,6 +24,12 @@ AWS_LAMBDA_ZIP=function.zip
 # (See https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)
 AWS_LAMBDA_RUNTIME=python3.8
 
+# Enables logging on the HTTP API if it has a value:
+AWS_LOG_GROUP_HTTP: log_group_http
+
+# Enables logging on the REST API if it has a value:
+AWS_LOG_GROUP_REST: log_group_rest
+
 # Lambda entry point (AWS documentation calls this a handler).
 # The first portion of the value is the name of the Python source code in the zip file containing the handler,
 # and the second portion of the value is the name of the handler function in that file.
@@ -57,4 +63,5 @@ AWS_HTTP_INVOCATION_URL=https://$AWS_APIG_HTTP_ID.execute-api.$AWS_REGION.amazon
 
 # Discussed in REST_API.md; provide any values you desire:
 AWS_REST_NAME=LambdaREST
-AWS_APIG_STAGE=test
+
+AWS_APIG_REST_STAGE=test

@@ -1,7 +1,10 @@
-# Step 4: Debugging
+# Debugging
 
 Debugging is the same for the HTTP and REST APIs.
 This document discusses how to set up an IntelliJ IDEA run configuration for debugging.
+
+If you wish to type along and have not already performed the instructions on the
+[previous page](LOGGING2.md) please do so now.
 
 
 ## Event Payloads

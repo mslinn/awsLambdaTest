@@ -1,20 +1,31 @@
-# Enable CloudWatch Logging
+# Logging Continued
+## Log Retention Policy
 
-This optional step makes it easier to figure out problems.
-
-If you wish to type along and have not already performed the instructions on the previous page,
-which is [Create IAM Role for the Lambda and the Lambda Itself](REGISTER.md).
-
-If you are resuming these instructions in a new shell, load the environment variables from `settings.py`:
-
+CloudWatch logs build up forever unless they are automatically deleted by specifying a retention policy.
+The retention policy shown below only keeps logs for one week.
 ```script
-$ source settings.py
+$ aws logs put-retention-policy \
+  --log-group-name log_group1 \
+  --retention-in-days 7
 ```
 
-## CloudWatch Logging
 
-See the [API Gateway Developer Guide](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-logging.html) for more information on enabling [CloudWatch logging](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/WhatIsCloudWatchLogs.html)
-for a particular API Gateway stage.
+```script
+$ aws apigatewayv2 update-stage --api-id $AWS_APIG_HTTP_ID \
+    --stage-name '$default' \
+    --access-log-settings "{
+        \"DestinationArn\": \"arn:aws:logs:$AWS_REGION:$AWS_ACCOUNT_ID:log-group:$AWS_APIG_HTTP_LOG_GROUP\",
+        \"Format\": "$context.identity.sourceIp - - [$context.requestTime] \"\$context.httpMethod $context.routeKey \$context.protocol\" \$context.status \$context.responseLength \$context.requestId"
+      }"
+```
+
+For REST APIs:
+```script
+$ aws apigatewayv2 update-stage --api-id $AWS_APIG_REST_ID \
+    --stage-name $AWS_APIG_STAGE \
+    --access-log-settings '{"DestinationArn": "arn:aws:logs:region:account-id:log-group:log-group1", "Format": "$context.identity.sourceIp - - [$context.requestTime] \"$context.httpMethod $context.routeKey $context.protocol\" $context.status $context.responseLength $context.requestId"}'
+```
+
 
 ### Tailing CloudWatch Logs From a Terminal
 Use [cw](https://www.lucagrulla.com/cw/).
@@ -27,6 +38,7 @@ wget https://github.com/lucagrulla/cw/releases/download/v3.3.0/cw_amd64.deb && s
 cd -
 ```
 
+
 ### Installation on Other Debian-Based Linux Distros
 To install on Debian/Ubuntu:
 
@@ -35,6 +47,7 @@ snap install cw-sh
 sudo snap connect cw-sh:dot-aws-config-credentials
 sudo snap alias cw-sh.cw cw
 ```
+
 
 ### Usage
 Tail all the streams in the CloudWatch Log group `log-group1` which was defined at the top of this section, showing times in the local time zone.
@@ -58,6 +71,7 @@ Tail just the streams that are named with the prefix `log-stream-prefix` in the 
 $ cw tail log-group1:log-stream-prefix --local
 ```
 
+
 #### Fuzzy Completion with `fzf`
 
 [`fzf`](https://github.com/junegunn/fzf) works well with `cw` for tab completion.
@@ -73,6 +87,7 @@ Use <kbd>tab</kbd> to select multiple log groups:
 $ cw tail -f $(cw ls groups | fzf -m | tr '\n' ' ')
 ```
 
+
 ### Deleting CloudWatch Logs
 ```script
 $ aws logs describe-log-groups --log-group-name-prefix log-group1 \
@@ -80,11 +95,10 @@ $ aws logs describe-log-groups --log-group-name-prefix log-group1 \
   cut -d '"' -f 2 | \
     while read LOG_GROUP
     do
-      aws logs delete-log-group --log-group-name $LOG_GROUP
+      aws logs delete-log-group --log-group-name $AWS_LOG_GROUP
     done
 ```
 
 
 ## Next Step
-
-Separate instructions are given for creating the simpler [HTTP API](HTTP_API.md) and the more flexible [REST API](REST_API.md).
+Continue on to [Debugging](DEBUGGING.md).

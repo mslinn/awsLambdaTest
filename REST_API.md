@@ -1,7 +1,7 @@
 # REST API
 
 If you wish to type along and have not already performed the instructions on the
-[previous page](REGISTER.md) please do so now.
+[previous page](LOGGING.md) please do so now.
 
 If you are resuming these instructions in a new shell, load the environment variables from `setEnvVars`:
 
@@ -305,4 +305,4 @@ $ curl --no-progress-meter \
 
 
 ## Next Step
-Continue on to [Logging](LOGGING.md).
+Continue on to [Logging Continued](LOGGING2.md).
